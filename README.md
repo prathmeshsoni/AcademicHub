@@ -53,7 +53,7 @@
 
 ## About The Project
 
-![Screen Shot](/static/assets/img/pretty-snap-25-09-2023.png)
+![Screen Shot](./static/assets/img/pretty-snap-25-09-2023.png)
 
 Introducing AcademicHub, a dynamic web application designed to streamline the academic journey for college students. With a focus on transparency and connectivity, this platform offers a comprehensive view of academic information for all students across various departments. From academic performance insights to a dedicated confession and notes section, AcademicHub fosters a sense of community and engagement.
 
