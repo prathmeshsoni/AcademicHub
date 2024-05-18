@@ -1,0 +1,1695 @@
+{% load static %}
+{% load custom_filters %}
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8"/>
+        <meta http-equiv="content-type" content="text/html;charset=utf-8"/>
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+
+        <title> 👨‍💻 | {% block title %}  {% endblock %} </title>
+
+        <link rel="shortcut icon" href="{% static 'assets/img/download-1.png' %}"/>
+        
+        <meta name="author" content="Prathmesh Soni"/>
+        <meta name="description" content="
+            Simplify your academic journey: view marks, read confessions, get updates, see highlights, and connect socially."/>
+        <meta property="og:title" content="Academic Dashboard"/>
+        <meta property="og:site_name" content="AcademicHub Website"/>
+        <meta property="og:url" content="cse-aiml.live"/>
+        <meta property="og:description" content="
+            Simplify your academic journey: view marks, read confessions, get updates, see highlights, and connect socially.">
+        <meta property="og:type" content="website"/>
+        <meta property="og:image" content="{% static 'assets/img/pretty-snap-25-09-2023.png' %}"/>
+        
+        <link rel="alternate" hreflang="en" href="https://cse-aiml.live"/>
+
+        <link rel="stylesheet"
+            href="https://use.fontawesome.com/releases/v5.15.4/css/all.css">
+
+        <link rel="canonical" href="https://www.creative-tim.com/product/black-dashboard"/>
+        <link href="{% static 'assets/css/nucleo-icons.css' %}" rel="stylesheet"/>
+        <link href="{% static 'assets/css/black-dashboard.min3f71.css' %}?v=1.1.1" rel="stylesheet"/>
+        <link href="{% static 'assets/demo/demo.css' %}" rel="stylesheet"/>
+
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v6.5.1/css/all.css">
+
+        <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+
+        {% block link_css %}
+
+        {% endblock %}
+        <style>
+            .bootstrap-switch-label {
+                color: #000000 !important;
+                background: #2872f6 !important;
+            }
+            .bootstrap-switch-handle-off {
+                color: #000000 !important;
+                background: #fff !important;
+            }
+            .bootstrap-switch-handle-on {
+                color: #000000 !important;
+                background: #fff !important;
+            }
+            .check * {
+                background: none !important;
+                border: none !important;
+            }
+            .text-10 {
+                font-size: 10px !important;
+            }
+
+            .text-15 {
+                font-size: 15px !important;
+            }
+
+            .cursor-pointer {
+                cursor: pointer;
+            }
+            .dropdown-item.active, .dropdown-item:active {
+                text-decoration: none;
+                background-color: #2183f7;
+            }
+
+            .white-content .form-control:focus {
+                border-color: #2183f7;
+            }
+
+            div.dataTables_info {
+                color: hsl(211.94deg 93.91% 54.9%);
+            }
+
+            .card.card-white .input-group-focus .form-control, .card.card-white .input-group-focus .input-group-append .input-group-text, .card.card-white .input-group-focus .input-group-prepend .input-group-text {
+                border-color: #2183f7 !important;
+            }
+
+            .card.card-white .form-control:focus {
+                border-color: #2183f7 !important;
+            }
+
+            .loader-popup {
+                display: none;
+                position: fixed;
+                top: 0;
+                left: 0;
+                width: 100%;
+                height: 100%;
+                background: rgb(0 0 0 / 82%);
+                z-index: 99999;
+                justify-content: center;
+                align-items: center;
+            }
+
+            .loader {
+                width: 48px;
+                height: 48px;
+                border: 4px solid;
+                background: rgba(255, 255, 255, 0.2);
+                border-color: transparent #FFF #FFF transparent;
+                border-radius: 50%;
+                display: inline-block;
+                position: relative;
+                box-sizing: border-box;
+                animation: rotation 1s ease-in-out infinite;
+            }
+
+            .loader::after {
+                content: '';
+                box-sizing: border-box;
+                position: absolute;
+                left: 50%;
+                top: 50%;
+                border: 12px solid;
+                border-color: transparent #FF3D00 #FF3D00 transparent;
+                transform: translate(-50%, -50%);
+                border-radius: 50%;
+            }
+
+            @keyframes rotation {
+                0% {
+                    transform: rotate(0deg);
+                }
+                100% {
+                    transform: rotate(360deg);
+                }
+            }
+
+            @keyframes progress-animation {
+                0% {
+                    width: 0%;
+                }
+                100% {
+                    width: {{ count }}%;
+                }
+            }
+
+            @keyframes glow-animation {
+                0%, 100% {
+                    box-shadow: 0 0 10px rgba(0, 123, 255, 0.7);
+                }
+                50% {
+                    box-shadow: 0 0 20px rgba(0, 123, 255, 0.9);
+                }
+            }
+
+            .developed_ {
+                font-weight: bold;
+                font-family: math;
+                margin-left: 3px;
+                margin-right: 7px;
+                color: #006fff;
+                font-size: 20px;
+            }
+
+            .developer_ {
+                font-weight: bold;
+                font-family: math;
+                margin-left: 3px;
+            }
+
+            .rounded-full {
+                border-radius: 50%;
+            }
+
+            .w-9 {
+                width: 2.25rem;
+            }
+
+            .h-9 {
+                height: 2.25rem;
+            }
+
+            .fade-1 {
+                margin: 4px 0 0 7px;
+            }
+
+            .flex {
+                display: flex;
+            }
+
+            .con {
+                font-size: 21px;
+                color: black;
+                font-weight: 500;
+                font-family: emoji;
+            }
+
+            .background_img {
+                background: linear-gradient(226deg, #4e7ca9, #FFFFFF) !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+            }
+
+            .background_img_1 {
+                background: linear-gradient(226deg, #4e7ca9, #FFFFFF) !important;
+                background-size: cover !important;
+                background-position: center !important;
+                background-repeat: no-repeat !important;
+            }
+
+            @media (max-width: 992px) {
+                .memu {
+                    position: fixed !important;
+                    box-shadow: 0 2px 22px 0 rgba(0, 0, 0, .1),
+                    0 4px 20px 0 rgba(0, 0, 0, .15);
+                }
+            }
+
+            @media (max-width: 500px) {
+                .custom-dialog {
+                    width: 78% !important;
+                }
+            }
+
+            @keyframes likeAnimation {
+                0% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+                50% {
+                    transform: scale(1.2);
+                    opacity: 0.8;
+                }
+                100% {
+                    transform: scale(1);
+                    opacity: 1;
+                }
+            }
+            @media (max-width: 767px) {
+                .alert-with-icon {
+                    top: 62px !important;
+                    right: 20px !important;
+                    max-width: 70% !important;
+                }
+            }
+
+            .like-animation {
+                position: absolute;
+                top: 40%;
+                left: 40%;
+                transform: translate(-50%, -50%);
+                font-size: 4em;
+                color: red;
+                animation: likeAnimation 0.6s ease;
+            }
+
+            .custom-dialog-1{
+                position: fixed;
+                display: none;
+                z-index: 99999999;
+                width: 100%;
+                height: 100%;
+                background: rgb(0 0 0 / 82%);
+            }
+            .custom-dialog {
+                position: fixed;
+                top: 50%;
+                left: 50%;
+                transform: translate(-50%, -50%);
+                background-color: #f9f9f9;
+                padding: 20px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgb(0 0 0 / 72%);
+                z-index: 9999;
+            }
+
+            .dialog-content {
+                text-align: center;
+            }
+
+            p {
+                margin-bottom: 20px;
+            }
+
+            button {
+                padding: 10px 20px;
+                border: none;
+                border-radius: 5px;
+                cursor: pointer;
+            }
+
+            .ok-button {
+                background-color: #4CAF50;
+                color: #fff;
+            }
+
+            .cancel-button {
+                background-color: #f44336;
+                color: #fff;
+                margin-left: 10px;
+            }
+
+            button:hover {
+                opacity: 0.8;
+            }
+
+            .f-2 {
+                font-size: 8px;
+            }
+
+            .box-a {
+                box-shadow: 2px 2px 4px 3px #524e4e2e;
+                margin-bottom: 10px;
+            }
+
+            .sucess {
+                border: 1px solid green;
+                color: green;
+                text-align: center;
+                padding: 6px;
+                border-radius: 10px;
+                background: #00800017;
+                display: none;
+            }
+
+            .changess {
+                border: 2px solid #00000052;
+                padding: 13px;
+                border-radius: 10px;
+                overflow: hidden;
+                text-overflow: ellipsis;
+            }
+            .fss-1{
+                font-size: 10px !important;
+                padding-top: 1px !important;
+            }
+
+            .rotate-none {
+                transform: rotate(0deg) !important;
+            }
+            .color-ss{
+                color: #525f7f !important;
+            }
+
+            .warning_1 {
+                background: #f39c12 !important;
+            }
+            .warning_2 {
+                background: #9b59b6  !important;
+            }
+            .warning_3 {
+                background: red  !important;
+            }
+            .sas {
+                width: 40px;
+                margin-top: 5px;
+            }
+            .font-set {
+                font-size: 11px;
+                color: #414141;
+                font-weight: 700;
+            }
+
+            {% block css %}
+
+            {% endblock %}
+        </style>
+        
+        <style>
+            {% if not sid == 'nasa' %}
+                .modal.show .modal-dialog {
+                    transform: translateY(0%) !important;
+                    top: 50px !important;
+                }
+            {% else %}
+                .modal.show .modal-dialog {
+                    transform: translateX(-50%) !important;
+                    top: 170px !important;
+                }
+            {% endif %}
+        </style>
+        
+    </head>
+<body class="sidebar-mini white-content">
+    
+<div class="loader-popup" id="login_loader">
+    <span class="loader"></span>
+</div>
+
+<div class="wrapper">
+    <div class="navbar-minimize-fixed">
+        <button class="minimize-sidebar btn btn-link btn-just-icon">
+            <i class="tim-icons icon-align-center visible-on-sidebar-regular text-muted"></i>
+            <i class="tim-icons icon-bullet-list-67 visible-on-sidebar-mini text-muted"></i>
+        </button>
+    </div>
+    <div class="sidebar" data="blue">
+        <div class="sidebar-wrapper">
+            <div class="logo">
+                <a href="/" class="simple-text logo-mini">
+                    Aiml
+                </a>
+                <a href="/" class="simple-text logo-normal">
+                    Welcome <img class="pl-2" src="{% static 'assets/img/emoji.png' %}" width="30" />
+                </a>
+            </div>
+            <ul class="nav" style="margin-bottom: 125px !important;">
+                <li {% if sid == 'home' %}class="active"{% endif %}>
+                    <a href="/">
+                        <i class="fas fa-home"></i>
+                        <p>
+                            Dashboard
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+D)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                </li>
+                {% if not request.session.userid %}
+                <li {% if sid == 'Admin' %}class="active"{% endif %}>
+                    <a href="/admin_side/" target="_blank">
+                        <i class="fas fa-user-lock"></i>
+                        <p>
+                            Admin Panel
+                            <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                (Alt+Shift+A)
+                            </span>
+                        </p>
+                    </a>
+                </li>
+                {% endif %}
+                {% if request.session.access %}
+                    <li {% if sid == 'history' %}class="active"{% endif %}>
+                        {% if historys %}
+                            {% if historys == 'no' %}
+                                <a href="/historys/">
+                            {% else %}
+                                <a href="/history/">
+                            {% endif %}
+                        {% else %}
+                            {% if historys_ %}
+                                {% if historys_ == 'yes' %}
+                                    <a href="/historys/">
+                                {% else %}
+                                    <a href="/history/">
+                                {% endif %}
+                            {% else %}
+                                <a href="/history/">
+                            {% endif %}
+                        {% endif %}
+                        <i class="fa fa-history"></i>
+                        <p>
+                            History
+                            <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                (Ctrl+h)
+                            </span>
+                        </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'chat_history' %}class="active"{% endif %}>
+                        <a href="/history/chat/">
+                            <i class="fa fa-history"></i>
+                            <p>
+                                Chat History
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+Shift+h)
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'Admin' %}class="active"{% endif %}>
+                        <a href="/admin_side/" target="_blank">
+                            <i class="fas fa-user-lock"></i>
+                            <p>
+                                Admin
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+Shift+A)
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if request.session.userid %}
+                    <li>
+                        <a href="#SemExamples" data-toggle="collapse"
+                           {% if sid == 'perti' %}aria-expanded="true"{% endif %}>
+                            <i class="fas fa-user"></i>
+                            <p>
+                                {% if sid == 'perti' and home_ == 'sem' and not request.session.type|lower == 'faculty' %}
+                                    {{ request.session.userid }}
+                                {% else %}
+                                    Profile
+                                {% endif %}
+                                {% if request.session.access_1 %}
+                                    <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                        (Ctrl+p)
+                                    </span>
+                                {% endif %}
+                                <b class="caret"></b>
+                            </p>
+                        </a>
+
+                        <div class="collapse {% if sid == 'perti' %}show{% endif %}"
+                             id="SemExamples">
+                            <ul class="nav">
+                                {% if not request.session.type|lower == 'faculty' %}
+                                    {% for i in sem_list %}
+                                        <li {% if home_ == 'sem' and sid == 'perti' and i == sem %} class="active"{% endif %} >
+                                            <a href="/{{ request.session.userid }}/{{ i }}/">
+                                                <span class="sidebar-mini-icon">
+                                                    <i class="fa-solid fa-{{ i }}"></i>
+                                                </span>
+                                                <span class="sidebar-normal">
+                                                    Semester {{ i }}
+                                                    {% if home_ == 'sem' and sid == 'perti' and i == sem %}
+                                                        {% if not vname|lower == request.session.userid|lower %} (Tap to View Profile) {% endif %}
+                                                    {% endif %}
+                                                    {% if request.session.access_1 %}
+                                                        <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                            (Ctrl+{{ i }})
+                                                        </span>
+                                                    {% endif %}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                {% endif %}
+                                <li {% if home_ == 'profile' and sid == 'perti' %} class="active" {% endif %} >
+                                    <a href="/profile/">
+                                        <span class="sidebar-mini-icon"><i class="fas fa-user"></i></span>
+                                        <span class="sidebar-normal">
+                                            Set Username
+                                            <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                (Ctrl+S)
+                                            </span>
+                                        </span>
+                                    </a>
+                                </li>
+                                <li {% if home_ == 'forgot' and sid == 'perti' %} class="active" {% else %} style="display:none;" {% endif %} >
+                                    <a href="/forgot/">
+                                        <span class="sidebar-mini-icon"><i class="fas fa-lock"></i></span>
+                                        <span class="sidebar-normal">
+                                            Forgot Password
+                                            {% if request.session.access_1 %}
+                                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                    (Ctrl+Shift+F)
+                                                </span>
+                                            {% endif %}
+                                        </span>
+                                    </a>
+                                </li>
+                                <li {% if home_ == 'change' and sid == 'perti' %} class="active" {% endif %} >
+                                    <a href="/change/">
+                                        <span class="sidebar-mini-icon"><i class="fas fa-unlock"></i></span>
+                                        <span class="sidebar-normal">
+                                            Change Password
+                                            {% if request.session.access_1 %}
+                                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                    (Alt+C)
+                                                </span>
+                                            {% endif %}
+                                        </span>
+                                    </a>
+                                </li>
+                                {% if request.session.access %}
+                                    <li {% if home_ == 'reminder' and sid == 'perti' %} class="active" {% endif %} >
+                                        <a href="/reminder/">
+                                            <span class="sidebar-mini-icon"><i class="fas fa-unlock"></i></span>
+                                            <span class="sidebar-normal">
+                                                Reminder Password
+                                            </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            </ul>
+                        </div>
+                    </li>
+                    {% if sid == 's_student' %}
+                        <li>
+                            <a href="#Sem_1Examples" data-toggle="collapse"
+                               {% if sid == 's_student' %}aria-expanded="true"{% endif %}>
+                                <i class="fas fa-user"></i>
+                                <p>
+                                    {{ vname }}
+                                    <b class="caret"></b>
+                                </p>
+                            </a>
+
+                            <div class="collapse {% if sid == 's_student' %}show{% endif %}"
+                                 id="Sem_1Examples">
+                                <ul class="nav">
+                                    {% for kk in sem_list_1 %}
+                                        <li {% if home_ == 'sem' and sid == 's_student' and kk|lower == sem|lower %} class="active" {% endif %} >
+                                            <a href="/{{ vname }}/{{ kk }}/">
+                                                <span class="sidebar-mini-icon">
+                                                    <i class="fa-solid fa-{{ kk }}"></i>
+                                                </span>
+                                                <span class="sidebar-normal">
+                                                    Semester {{ kk }}
+                                                </span>
+                                            </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                        </li>
+
+                    {% endif %}
+                    {% for i, j in subcategories.items %}
+                        <li>
+                            {% if j %}
+                                <a href="#{{ i.sid }}Examples" data-toggle="collapse"
+                                   {% if sid == i.sid %}aria-expanded="true"{% endif %}>
+                            {% else %}
+                                <a href="{{ i.link }}" target="_blank">
+                            {% endif %}
+                                {% if i.fa_name %}
+                                    <i class="{{ i.fa_name }}"></i>
+                                {% else %}
+                                    <i class="fas fa-book"></i>
+                                {% endif %}
+                                <p>
+                                    {{ i.category }}
+                                    {% if request.session.access_1 %}
+                                        {% if i.short_cut %}
+                                            <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                {{ i.short_cut }}
+                                            </span>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if j %}
+                                        <b class="caret"></b>
+                                    {% endif %}
+                                </p>
+                            </a>
+                            
+                            {% if j %}
+                                <div class="collapse {% if sid == i.sid %}show{% endif %}" id="{{ i.sid }}Examples">
+                                    <ul class="nav">
+                                        {% for sub in j %}
+    
+                                            <li {% if home_|lower == sub.home|lower and sid|lower == i.sid|lower %}class="active"{% endif %}>
+                                                {% if sub.link|starts_with:"https://" or sub.link|starts_with:"http://" %}
+                                                    <a href="{{ sub.link }}" target="_blank">
+                                                        <span class="sidebar-mini-icon">{{ sub.short_title|safe }}</span>
+                                                        <span class="sidebar-normal"> {{ sub.full_title }} </span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="/c{{ sub.link }}">
+                                                        <span class="sidebar-mini-icon">{{ sub.short_title|safe }}</span>
+                                                        <span class="sidebar-normal"> {{ sub.full_title }} </span>
+                                                    </a>
+                                                {% endif %}
+                                            </li>
+    
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+                            
+                        </li>
+                    {% endfor %}
+                {% else %}
+                    {% for i, j in subcategories.items %}
+                        <li>
+                            {% if j %}
+                                <a href="#{{ i.sid }}Examples" data-toggle="collapse"
+                                   {% if sid == i.sid %}aria-expanded="true"{% endif %}>
+                            {% else %}
+                                <a href="{{ i.link }}" target="_blank">
+                            {% endif %}
+                                {% if i.fa_name %}
+                                    <i class="{{ i.fa_name }}"></i>
+                                {% else %}
+                                    <i class="fas fa-book"></i>
+                                {% endif %}
+                                <p>
+                                    {{ i.category }}
+                                    {% if request.session.access_1 %}
+                                        {% if i.short_cut %}
+                                            <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                                {{ i.short_cut }}
+                                            </span>
+                                        {% endif %}
+                                    {% endif %}
+                                    {% if j %}
+                                        <b class="caret"></b>
+                                    {% endif %}
+                                </p>
+                            </a>
+                            {% if j %}
+                                <div class="collapse {% if sid == i.sid %}show{% endif %}" id="{{ i.sid }}Examples">
+                                    <ul class="nav">
+                                        {% for sub in j %}
+    
+                                            <li {% if home_|lower == sub.home|lower and sid|lower == i.sid|lower %}class="active"{% endif %}>
+                                                {% if sub.link|starts_with:"https://" or sub.link|starts_with:"http://" %}
+                                                    <a href="{{ sub.link }}" target="_blank">
+                                                        <span class="sidebar-mini-icon">{{ sub.short_title|safe }}</span>
+                                                        <span class="sidebar-normal"> {{ sub.full_title }} </span>
+                                                    </a>
+                                                {% else %}
+                                                    <a href="/c{{ sub.link }}">
+                                                        <span class="sidebar-mini-icon">{{ sub.short_title|safe }}</span>
+                                                        <span class="sidebar-normal"> {{ sub.full_title }} </span>
+                                                    </a>
+                                                {% endif %}
+                                            </li>
+    
+                                        {% endfor %}
+                                    </ul>
+                                </div>
+                            {% endif %}
+
+                        </li>
+                    {% endfor %}
+                    <li {% if sid == 'profile' %}class="active"{% endif %}>
+                        <a href="/profile/">
+                            <i class="far fa-edit"></i>
+                            <p>
+                                Set Username
+                            </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'login' and ksy == "student" %}class="active"{% endif %}>
+                        <a href="/login/">
+                            <i class="fa fa-sign-in-alt"></i>
+                            <p>
+                               Student Login
+                            </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'login' and ksy == "faculty" %}class="active"{% endif %}>
+                        <a href="/faculty/login/">
+                            <i class="fa fa-sign-in-alt"></i>
+                            <p>
+                               Faculty Login
+                            </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'register' %}class="active"{% endif %}>
+                        <a href="/register/">
+                            <i class="far fa-user"></i>
+                            <p>
+                                Register
+                            </p>
+                        </a>
+                    </li>
+                    <li {% if sid == 'perti' %}class="active"{% endif %}>
+                        <a href="/forgot/">
+                            <i class="fas fa-unlock"></i>
+                            <p>
+                                Forgot Password
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                <li>
+                    <a href="#BranchExamples" data-toggle="collapse"
+                       {% if sid == 'sub' %}aria-expanded="true"{% endif %}>
+                        <i class="fas fa-code-branch"></i>
+                        <p>
+                            Branch Wise Rank List
+                            <b class="caret"></b>
+                            <br>
+                            {% if request.session.access_1 %}
+                                <span style="float:right; font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+B)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+
+                    <div class="collapse {% if sid == 'branchs' %}show{% endif %}"
+                         id="BranchExamples">
+                        <ul class="nav">
+                            <li {% if home_ == 'Branch_1' and sid == 'branchs' %} class="active" {% endif %} >
+                                <a href="/branch/">
+                                    <span class="sidebar-mini-icon">B</span>
+                                    <span class="sidebar-normal">
+                                        Branch
+                                    </span>
+                                </a>
+                            </li>
+                            {% if home_ == 'Branch_2' and sid == 'branchs' %}
+                                <li class="active">
+                                    <a href="javascript:void(0)">
+                                        <span class="sidebar-mini-icon">{{ main_sid }}</span>
+                                        <span class="sidebar-normal">
+                                            {{ main_sid }}
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+
+                <li>
+                    <a href="#SubjectExamples" data-toggle="collapse"
+                       {% if sid == 'sub' %}aria-expanded="true"{% endif %}>
+                        <i class="fas fa-code-branch"></i>
+                        <p>
+                            SUBJECT WISE MSE RESULT
+                            <b class="caret"></b>
+                            <br>
+                            {% if request.session.access_1 %}
+                                <span style="float:right; font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+S)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+
+                    <div class="collapse {% if sid == 'sub' %}show{% endif %}"
+                         id="SubjectExamples">
+                        <ul class="nav">
+                            <li {% if home_ == 'subject' and sid == 'sub' %} class="active" {% endif %} >
+                                <a href="/subject/">
+                                    <span class="sidebar-mini-icon">Sub</span>
+                                    <span class="sidebar-normal">
+                                        Subjects
+                                    </span>
+                                </a>
+                            </li>
+                            {% if home_ == 'Subject_1' and sid == 'sub' %}
+                                <li  {% if s_msc == 'yes' %} class="active"{% endif %}>
+                                    <a href="/{{ key.0 }}/{{ key.1 }}/{{ key.2 }}/1/{{ key.3 }}/">
+                                        <span class="sidebar-mini-icon">
+                                            <i class="fa-solid fa-1"></i>
+                                        </span>
+                                        <span class="sidebar-normal">
+                                            {% if not key.2|lower == 'cpdp' %}
+                                                {{ main_sid }} MSE 1
+                                            {% else %}
+                                                 CPDP Marks
+                                            {% endif %}
+                                        </span>
+                                    </a>
+                                </li>
+                            {% endif %}
+                            {% if not key.2|lower == 'cpdp' %}
+                                {% if home_ == 'Subject_1' and sid == 'sub' %}
+                                    <li {% if s_msc == 'no' %} class="active"{% endif %}>
+                                        <a href="/{{ key.0 }}/{{ key.1 }}/{{ key.2 }}/2/{{ key.3 }}/">
+                                            <span class="sidebar-mini-icon">
+                                                <i class="fa-solid fa-2"></i>
+                                            </span>
+                                            <span class="sidebar-normal">
+                                                {{ main_sid }} MSE 2
+                                            </span>
+                                        </a>
+                                    </li>
+                                {% endif %}
+                            {% endif %}
+                        </ul>
+                    </div>
+                </li>
+                
+                <li {% if sid == 'add_confession' %}class="active"{% endif %}>
+                    <a href="/confession/">
+                        <i class="far fa-comment-dots"></i>
+                        <p>
+                            Add Confession
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+Shift+A)
+                                </span>
+                            {% endif %}    
+                        </p>
+                    </a>
+                </li>
+
+                <li {% if sid == 'confession' %}class="active"{% endif %}>
+                    <a href="/confession/views/">
+                        <i class="far fa-comment"></i>
+                        <p>
+                            View Confessions
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+Shift+C)
+                                </span>
+                            {% endif %}   
+                        </p>
+                    </a>
+                </li>
+                <li {% if sid == 'contact' %}class="active"{% endif %}>
+                    <a href="/contact/">
+                        <i class="tim-icons icon-notes"></i>
+                        <p>
+                            Contact Us
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+Shift+C)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                </li>
+                <li {% if sid == 'students' %}class="active"{% endif %}>
+                    <a href="/students/">
+                        <i class="fa-solid fa-users"></i>
+                        <p>
+                            Student List
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+L)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                </li>
+                {% if request.session.type|lower == 'faculty' or request.session.access %}
+                    <li {% if sid == 'faculty' %}class="active"{% endif %}>
+                        <a href="/faculties/">
+                            <i class="fa-solid fa-users-gear"></i>
+                            <p>
+                                Faculty List
+                                {% if request.session.access_1 %}
+                                    <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                        (Alt+F)
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+
+                <li {% if sid == 'upload' %}class="active"{% endif %}>
+                    <a href="/upload/">
+                        <i class="far fa-file-pdf"></i>
+                        <p>
+                            Upload Result
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+U)
+                                </span>
+                            {% endif %} 
+                        </p>
+                    </a>
+                </li>
+                {% if request.session.table_aa and request.session.hidden_result_roll == 0 or sid == 'verification' %}
+                    <li {% if sid == 'verification' %}class="active"{% endif %}>
+                        <a href="/verification/">
+                            <i class="far fa-file-pdf"></i>
+                            <p>Uploaded Result</p>
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+V)
+                                </span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+                {% if request.session.userid %}
+                    <li {% if sid == 'upload_div' %}class="active"{% endif %}>
+                        <a href="/upload/rollno/">
+                            <i class="far fa-file-pdf"></i>
+                            <p>
+                                Upload Division List
+                                {% if request.session.access_1 %}
+                                    <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                        (Ctrl+Shift+U)
+                                    </span>
+                                {% endif %}
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if request.session.table_aa and request.session.hidden_result_roll == 1 and request.session.access or sid == 'verifications' %}
+                    <li {% if sid == 'verifications' %}class="active"{% endif %}>
+                        <a href="/verification/rollno/">
+                            <i class="far fa-file-pdf"></i>
+                            <p>Uploaded Division List</p>
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Alt+Shift+V)
+                                </span>
+                            {% endif %}
+                        </a>
+                    </li>
+                {% endif %}
+                <li {% if sid == 'structure' %}class="active"{% endif %}>
+                    <a href="/site-tour/">
+                        <i class="fa-solid fa-sitemap"></i>
+                        <p>
+                            Site Structure
+                        </p>
+                    </a>
+                </li>
+                {% if sid == 'developed-by' %}
+                    <li class="active">
+                {%  else %}
+                    <li>
+                {% endif %}
+                    <a href="/developed-by/" target="_blank">
+                        <i><img src="{% static 'assets/img/dev-team.png' %}"></i>
+                        <p>
+                            Developed By
+                            {% if request.session.access_1 %}
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+Shift+I)
+                                </span>
+                            {% endif %}
+                        </p>
+                    </a>
+                </li>
+                {% if request.session.access %}
+                    <li {% if sid == 'f_register' %}class="active"{% endif %}>
+                        <a href="/faculty/register/">
+                            <i class="far fa-user"></i>
+                            <p>
+                                Faculty Register
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+                {% if request.session.userid %}
+                    <li {% if sid == 'asd' %}class="active"{% endif %}>
+                        <a href="javascript:void(0)" onclick="logout()">
+                            <i class="fa fa-sign-out-alt"></i>
+                            <p>
+                                Logout
+                                <span style="font-size: 9px;font-weight: 700;color: black;margin-left: 5px;text-transform: capitalize;">
+                                    (Ctrl+l)
+                                </span>
+                            </p>
+                        </a>
+                    </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
+    <div class="main-panel">
+        <nav class="memu navbar navbar-expand-lg navbar-absolute navbar-transparent"
+             style="background-color: #f5f6fa !important;">
+            <div class="container-fluid">
+                <div class="navbar-wrapper">
+                    <div class="navbar-minimize d-inline">
+                        <button class="minimize-sidebar btn btn-link btn-just-icon" rel="tooltip"
+                                data-placement="right">
+                            <i class="tim-icons icon-align-center visible-on-sidebar-regular"></i>
+                            <i class="tim-icons icon-bullet-list-67 visible-on-sidebar-mini"></i>
+                        </button>
+                    </div>
+                    <div class="navbar-toggle d-inline">
+                        <button type="button" class="navbar-toggler">
+                            <span class="navbar-toggler-bar bar1"></span>
+                            <span class="navbar-toggler-bar bar2"></span>
+                            <span class="navbar-toggler-bar bar3"></span>
+                        </button>
+                    </div>
+                    <a class="navbar-brand" href="javascript:void(0)">{{ vname|safe }}</a>
+                </div>
+                {% if request.session.userid %}
+                    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navigation"
+                            aria-expanded="false" aria-label="Toggle navigation">
+                        <i class="fa fa-cog" style="font-size: 25px;"></i>
+                    </button>
+                    <div class="collapse navbar-collapse" id="navigation">
+
+                        <ul class="navbar-nav ml-auto">
+
+                            <li class="dropdown nav-item">
+                                <a href="javascript:void(0)" onclick="logout()" class="nav-link">
+                                    <div class="photo">
+                                        <i class="fa fa-sign-out-alt"></i>
+                                    </div>
+                                    <b class="caret d-none d-lg-block d-xl-block"></b>
+                                    <p class="d-lg-none">
+                                        Log out
+                                    </p>
+                                </a>
+                            </li>
+                            <li class="separator d-lg-none"></li>
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </nav>
+        {% block content %}
+
+        {% endblock %}
+        <footer class="footer pb-0 pt-0">
+            <div class="container-fluid">
+                <ul class="nav">
+                    <li class="nav-item">
+                        <a href="javascript:void(0)" class="nav-link text-capitalize">
+                            <span class="developer_ text-uppercase">
+                                Developed By
+                            </span>
+                            <span class="developed_ text-uppercase" onclick="developer_()">
+                                AIML students
+                            </span>
+                            <button class="btn btn-info btn-round btn-icon" style="margin-top: -5px;" onclick="developer_()">
+                                <i class="tim-icons icon-heart-2"></i>
+                            </button>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="https://project.prathmeshsoni.works" target="_blank" class="nav-link">
+                            Project
+                        </a>
+                    </li>
+                </ul>
+            </div>
+        </footer>
+    </div>
+
+</div>
+
+<script src="{% static 'assets/js/core/jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/core/popper.min.js' %}"></script>
+<script src="{% static 'assets/js/core/bootstrap.min.js' %}"></script>
+
+<script src="{% static 'assets/js/plugins/perfect-scrollbar.jquery.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/moment.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap-switch.js' %}"></script>
+<script src="{% static 'assets/js/plugins/sweetalert2.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.tablesorter.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.validate.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.bootstrap-wizard.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap-selectpicker.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap-datetimepicker.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery.dataTables.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap-tagsinput.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jasny-bootstrap.min.js' %}"></script>
+
+<script src="{% static 'assets/js/plugins/fullcalendar/fullcalendar.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/fullcalendar/daygrid.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/fullcalendar/timegrid.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/fullcalendar/interaction.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/jquery-jvectormap.js' %}"></script>
+<script src="{% static 'assets/js/plugins/nouislider.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/chartjs.min.js' %}"></script>
+<script src="{% static 'assets/js/plugins/bootstrap-notify.js' %}"></script>
+
+<script src="{% static 'assets/js/black-dashboard.min3f71.js' %}?v=1.1.1"></script>
+
+<script src="{% static 'assets/demo/demo.js' %}"></script>
+
+<script src="{% static 'assets/demo/jquery.sharrre.js' %}"></script>
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-46172202-12"></script>
+
+<script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+
+<script src="{% static 'assets/js/img.js' %}" type="text/javascript"></script>
+
+<script type="module">
+
+    import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
+    import { getAnalytics } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-analytics.js";
+    import { getMessaging, getToken } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-messaging.js";
+
+    // Your web app's Firebase configuration, Enter Below Your Firebase Config
+    const firebaseConfig = {
+        apiKey: "",
+        authDomain: "",
+        projectId: "",
+        storageBucket: "",
+        messagingSenderId: "",
+        appId: "",
+        measurementId: ""
+    };
+
+
+    const app = initializeApp(firebaseConfig);
+    const analytics = getAnalytics(app);
+
+    const messaging = getMessaging(app);
+
+    // Enter Below Your API Key
+    getToken(messaging, {vapidKey: "Enter-Your-API-Key"}).
+    then((currentToken) => {
+        if (currentToken) {
+            $.ajax({
+                url: '/send_token/',
+                type: 'POST',
+                data: {
+                    'csrfmiddlewaretoken': '{{ csrf_token }}',
+                    'token': currentToken
+                },
+                success: function (data) {
+                }
+            });
+        } else {
+            console.log('No registration token available. Request permission to generate one.');
+        }
+    }).catch((err) => {
+
+    });
+
+
+</script>
+
+<script>
+    $(window).on('load', function () {
+
+        {% block script %}  {% endblock %}
+    });
+</script>
+
+<script>
+    $(document).ready(function() {
+      // initialise Datetimepicker and Sliders
+      blackDashboard.initDateTimePicker();
+      if ($('.slider').length != 0) {
+        demo.initSliders();
+      }
+    });
+    
+    $(document).ready(function () {
+        $().ready(function () {
+            $sidebar = $('.sidebar');
+            $navbar = $('.navbar');
+            $main_panel = $('.main-panel');
+
+            $full_page = $('.full-page');
+
+            $sidebar_responsive = $('body > .navbar-collapse');
+            sidebar_mini_active = true;
+            white_color = false;
+
+            window_width = $(window).width();
+
+            fixed_plugin_open = $('.sidebar .sidebar-wrapper .nav li.active a p').html();
+
+
+            $('.fixed-plugin a').click(function (event) {
+                if ($(this).hasClass('switch-trigger')) {
+                    if (event.stopPropagation) {
+                        event.stopPropagation();
+                    } else if (window.event) {
+                        window.event.cancelBubble = true;
+                    }
+                }
+            });
+
+            $('.fixed-plugin .background-color span').click(function () {
+                $(this).siblings().removeClass('active');
+                $(this).addClass('active');
+
+                var new_color = $(this).data('color');
+
+                if ($sidebar.length != 0) {
+                    $sidebar.attr('data', new_color);
+                }
+
+                if ($main_panel.length != 0) {
+                    $main_panel.attr('data', new_color);
+                }
+
+                if ($full_page.length != 0) {
+                    $full_page.attr('filter-color', new_color);
+                }
+
+                if ($sidebar_responsive.length != 0) {
+                    $sidebar_responsive.attr('data', new_color);
+                }
+            });
+
+            $('.switch-sidebar-mini input').on("switchChange.bootstrapSwitch", function () {
+                var $btn = $(this);
+
+
+                // we simulate the window Resize so the charts will get updated in realtime.
+                var simulateWindowResize = setInterval(function () {
+                    window.dispatchEvent(new Event('resize'));
+                }, 180);
+
+                // we stop the simulation of Window Resize after the animations are completed
+                setTimeout(function () {
+                    clearInterval(simulateWindowResize);
+                }, 1000);
+            });
+
+            $('.switch-change-color input').on("switchChange.bootstrapSwitch", function () {
+                var $btn = $(this);
+
+                if (white_color == true) {
+
+                    $('body').addClass('change-background');
+                    setTimeout(function () {
+                        $('body').removeClass('change-background');
+                        $('body').removeClass('white-content');
+                    }, 900);
+                    white_color = false;
+                } else {
+
+                    $('body').addClass('change-background');
+                    setTimeout(function () {
+                        $('body').removeClass('change-background');
+                        $('body').addClass('white-content');
+                    }, 900);
+
+                    white_color = true;
+                }
+
+
+            });
+
+            $('.light-badge').click(function () {
+                $('body').addClass('white-content');
+            });
+
+            $('.dark-badge').click(function () {
+                $('body').removeClass('white-content');
+            });
+        });
+    });
+    
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+        dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-46172202-12');
+</script>
+
+<!--// |---------------------------------------------------------------------------------------------------------| //
+    // | ->  If You See This Code Then Just ,                                                                    | //
+    // |                   Contact Me On this url "cse-aiml.live/chat/" or                            | //
+    // |                      just go On this url "/contact/",                                                   | //
+    // |                                    We Will Build A Some New Stuff Together.....!                        | //
+    // |---------------------------------------------------------------------------------------------------------| // -->
+
+<script>
+    // |---------------------------------------------------------------------------------------------------------| //
+    // | ->  If You See This Code Then Just ,                                                                    | //
+    // |                   Contact Me On this url "cse-aiml.live/chat/" or                            | //
+    // |                      just go On this url "/contact/",                                                   | //
+    // |                                    We Will Build A Some New Stuff Together.....!                        | //
+    // |---------------------------------------------------------------------------------------------------------| //
+    <!-- If You See This Code Then Just Contact Me On "Chat.Cse-Aiml.Live" / or just go on "/contact/", We Will Build A Some New Stuff Together.....! -->
+    
+    
+    document.addEventListener('keydown', function (event) {
+        <!-- A -->
+        if ((event.key == 'a' || event.key == 'A') && event.ctrlKey && event.shiftKey && event.altKey == false) {
+            event.preventDefault();
+            window.location.href = "/confession/?key=Ctrl+Shift+A";
+        }
+        {% if request.session.access %}
+            if ((event.key == 'a' || event.key == 'A') && event.ctrlKey == false && event.shiftKey && event.altKey) {
+                event.preventDefault();
+                window.location.href = "/admin_side/";
+            }
+        {% endif %}
+        <!-- B -->
+        if ((event.key == 'b' || event.key == 'B') && event.shiftKey == false && event.ctrlKey == false && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/branch/?key=Alt+B";
+        }
+        <!-- C -->
+        if ((event.key == 'c' || event.key == 'C') && event.ctrlKey && event.shiftKey == false && event.altKey == false) {
+            // alert('Ammm... You want to Copy something? ');
+        }
+        if ((event.key == 'c' || event.key == 'C') && event.ctrlKey == false && event.shiftKey && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/contact/?key=Alt+Shift+C";
+        }
+        if ((event.key == 'c' || event.key == 'C') && event.ctrlKey == false && event.shiftKey == false && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/change/?key=Alt+C";
+        }
+        {% if not request.session.access %}
+            if ((event.key == 'c' || event.key == 'C') && event.ctrlKey && event.shiftKey && event.altKey == false) {
+                event.preventDefault();
+                window.location.href = "/confession/views/?key=Ctrl+Shift+C";
+            }
+        {% else %}
+            if ((event.key == 'c' || event.key == 'C') && event.ctrlKey && event.shiftKey && event.altKey == false) {
+                event.preventDefault();
+                window.location.href = "/confession/view_all/";
+            }
+        {% endif %}
+        <!-- D -->
+        if ((event.key == 'd' || event.key == 'D') && event.ctrlKey) {
+            event.preventDefault();
+            window.location.href = "/?key=Ctrl+D";
+        }
+        <!-- E -->
+        if ((event.key == 'e' || event.key == 'E') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- F -->
+        <!-- G -->
+        {% if not request.session.access_1 %}
+            if ((event.key == 'f' || event.key == 'F' || event.key == 'g' || event.key == 'G') && event.ctrlKey) {
+                event.preventDefault();
+                // alert('Hey Buddy! Searching is not allowed here.');
+            }
+        {% endif %}
+        if ((event.key == 'f' || event.key == 'F' || event.key == 'g' || event.key == 'G') && event.ctrlKey && event.shiftKey) {
+            event.preventDefault();
+            window.location.href = "/forgot/?key=Ctrl+Shift+F";
+        }
+        if ((event.key == 'f' || event.key == 'F') && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/faculties/?key=Alt+F";
+            // alert('Hey Buddy! Searching is not allowed here.');
+        }
+        <!-- H -->
+        {% if request.session.access %}
+            if ((event.key == 'h' || event.key == 'H') && event.ctrlKey && event.shiftKey == false) {
+                event.preventDefault();
+                window.location.href = "/history/";
+            }
+            if ((event.key == 'h' || event.key == 'H') && event.ctrlKey && event.shiftKey) {
+                event.preventDefault();
+                window.location.href = "/history/chat/";
+            }
+        {% else %}
+            if ((event.key == 'h' || event.key == 'H') && event.ctrlKey) {
+                event.preventDefault();
+            }
+        {% endif %}
+        <!-- I -->
+        if ((event.key == 'i' || event.key == 'I') && event.ctrlKey && event.shiftKey) {
+            event.preventDefault();
+            window.open("/developed-by/?key=Ctrl+Shift+I", '_blank');
+        }
+        <!-- J -->
+        if ((event.key == 'j' || event.key == 'J') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- K -->
+        if ((event.key == 'k' || event.key == 'K') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- L -->
+        if ((event.key == 'l' || event.key == 'L') && event.ctrlKey && event.shiftKey == false && event.altKey == false) {
+            event.preventDefault();
+            {% if not request.session.userid %}
+                window.location.href = "/login/?key=Ctrl+L";
+            {% else %}
+                logout()
+            {% endif %}
+        }
+        if ((event.key == 'l' || event.key == 'L') && event.ctrlKey == false&& event.shiftKey == false && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/students/?key=Alt+L";
+        }
+        if ((event.key == 'l' || event.key == 'L') && event.ctrlKey && event.shiftKey && event.altKey == false) {
+            event.preventDefault();
+            window.location.href = "/student/?key=Ctrl+Shift+L";
+        }
+        <!-- M -->
+        if ((event.key == 'm' || event.key == 'M') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- N -->
+        if ((event.key == 'n' || event.key == 'N') && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/nasa/?key=Alt+N";
+        }
+        <!-- O -->
+        if ((event.key == 'o' || event.key == 'O') && event.ctrlKey) {
+            event.preventDefault();
+            window.location.href = "/c/notes/sem-6/?key=Ctrl+O";
+        }
+        <!-- P -->
+        if ((event.key == 'p' || event.key == 'P') && event.ctrlKey) {
+            event.preventDefault();
+            {% if request.session.userid %}
+                window.location.href = "/{{ request.session.userid }}/?key=Ctrl+P";
+            {% endif %}
+        }
+        <!-- Q -->
+        if ((event.key == 'q' || event.key == 'Q') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- R -->
+        if ((event.key == 'r' || event.key == 'R') && event.ctrlKey && event.shiftKey == false && event.altKey == false) {
+            event.preventDefault();
+            alert('Hey Buddy! Just Press Ctrl + Shift + R to Reload The Page.');
+        }
+        if ((event.key == 'r' || event.key == 'R') && event.ctrlKey == false && event.altKey && event.shiftKey) {
+            event.preventDefault();
+            {% if not request.session.userid %}
+                window.location.href = "/register/?key=Alt+Shift+R";
+            {% endif %}
+        }
+        <!-- S -->
+        if ((event.key == 's' || event.key == 'S') && event.ctrlKey && event.shiftKey == false) {
+            event.preventDefault();
+            window.location.href = "/profile/?key=Ctrl+S";
+        }
+        if ((event.key == 's' || event.key == 'S') && event.ctrlKey && event.shiftKey) {
+            event.preventDefault();
+            window.location.href = "/c/assignment/?key=Ctrl+Shift+S";
+        }
+        if ((event.key == 's' || event.key == 'S') && event.ctrlKey == false && event.shiftKey == false && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/subject/?key=Alt+S";
+        }
+        <!-- T -->
+        if ((event.key == 't' || event.key == 'T') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- U -->
+        if ((event.key == 'u' || event.key == 'U') && event.ctrlKey && event.shiftKey == false) {
+            event.preventDefault();
+            window.location.href = "/upload/?key=Ctrl+U";
+        }
+        if ((event.key == 'u' || event.key == 'U') && event.ctrlKey && event.shiftKey) {
+            event.preventDefault();
+            window.location.href = "/upload/rollno/?key=Ctrl+Shift+U";
+        }
+        <!-- V -->
+        if ((event.key == 'v' || event.key == 'V') && event.ctrlKey == false && event.shiftKey == false && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/verification/?key=Alt+V";
+        }
+        if ((event.key == 'v' || event.key == 'V') && event.ctrlKey == false && event.shiftKey && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/verification/rollno/?key=Alt+Shift+V";
+        }
+        <!-- W -->
+        if ((event.key == 'w' || event.key == 'W') && event.ctrlKey) {
+            event.preventDefault();
+        }
+        <!-- X -->
+        if ((event.key == 'x' || event.key == 'X') && event.ctrlKey) {
+            // alert('Ammm... You want to Cut something? ');
+        }
+        <!-- Y -->
+        if ((event.key == 'y' || event.key == 'Y') && event.ctrlKey && event.shiftKey) {
+            event.preventDefault();
+        }
+        <!-- Z -->
+        
+        if ((event.key == 'f11' || event.key == 'F11') && event.ctrlKey && event.altKey == false && event.shiftKey) {
+            event.preventDefault();
+            login_hehe();
+        }
+        
+        {% if request.session.userid %}
+            {% for i in sem_list %}
+        
+        var val_{{ i }} = {{ i }};
+        val_{{ i }} = +val_{{ i }}
+        if ((+event.key == val_{{ i }}) && event.ctrlKey) {
+            event.preventDefault();
+            window.location.href = "/{{ request.session.userid }}/{{ i }}/?key=Ctrl+{{ i }}";
+        }
+        
+            {% endfor %}
+            {% if sem_list_1 %}
+                {% for i in sem_list_1 %}
+                
+        var val1_{{ i }} = {{ i }};
+        val1_{{ i }} = +val1_{{ i }}
+        if ((+event.key == val1_{{ i }}) && event.altKey) {
+            event.preventDefault();
+            window.location.href = "/{{ vname }}/{{ i }}/?key=Alt+{{ i }}";
+        }
+                    
+                {% endfor %}
+            {% endif %}
+        {% endif %}
+    }, false);
+    
+    {% if not request.session.access %}
+        window.oncontextmenu = (e) => {
+            e.preventDefault()
+            // alert('Not Allowed.....!');
+        }
+    {% endif %}
+    
+</script>
+
+<script>
+    $(document).ready(function() {
+        var ConsoleLog = `
+// |---------------------------------------------------------------------------------------------------------| //
+// | ->  If You See This Code Then Just ,                                                                    | //
+// |                   Contact Me On this url "cse-aiml.live/chat/" or                                       | //
+// |                      just go On this url "/contact/",                                                   | //
+// |                                    We Will Build A Some New Stuff Together.....!                        | //
+// |---------------------------------------------------------------------------------------------------------| //`;
+        
+        console.log(ConsoleLog)
+        {% if messages %}
+            {% for message in messages %}
+                color = Math.floor((Math.random() * 4) + 1);
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "{{ message }}"
+                }, {
+                    type: 'info',
+                    timer: 2000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            {% endfor %}
+        {% endif %}
+        setTimeout(function () {
+            try {
+                $('#{{ key_branch_all }}').click();
+            }
+            catch (e) {
+
+            }
+            try {
+                $('#{{ key_subject_all }}').click();
+            }
+            catch (e) {
+
+            }
+            setTimeout(function () {
+                try {
+                    $('#{{ key_subject_all_1 }}').click();
+                }
+                catch (e) {
+
+                }
+            }, 500);
+        }, 500);
+
+    });
+
+    function login_hehe(){
+        var hehe = prompt('Enter Password : ');
+        if (hehe){
+            fetch("/thisisprivate/", {
+                method: 'POST',
+                credentials: 'same-origin',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': "{{ csrf_token }}",
+                },
+                body: JSON.stringify({ "message": hehe })
+            }).then(e => e.json())
+                .then(data => {
+                if (data.msg){
+                    setTimeout(function () {
+                        window.location.href = data.msg;
+                    }, 2000);
+                }
+            }).catch();
+
+        }
+    }
+    
+    function logout() {
+        if (confirm("Are you sure you want to logout?")) {
+            $.ajax({
+                url: "/logout/",
+                type: "POST",
+                data: {
+                    csrfmiddlewaretoken: "{{ csrf_token }}"
+                },
+                success: function (data) {
+                    window.location.href = data.url;
+                }
+            });
+        }
+    }
+    
+    function developer_(){
+        window.open("/developed-by/", '_blank');
+    }
+    
+    function bb(e) {
+        $.ajax({
+            url: "/thisisprivate/",
+            type: "POST",
+            data: {
+                csrfmiddlewaretoken: "{{ csrf_token }}",
+                'nothing': `lovdecheckdevloperinfooter${e}lovdecheckdevloperinfooter`
+            },
+            success: function (data) {
+            }
+        });
+    }
+</script>
+
+{% block script_1 %}  
+{% endblock %}
+
+</body>
+
+</html>

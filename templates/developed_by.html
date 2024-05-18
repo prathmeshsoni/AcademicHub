@@ -1,0 +1,73 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+Developed By
+{% endblock %}
+
+{% block css %}
+    .block-one, .block-two{
+        background: linear-gradient(90deg, rgb(31 134 247) 0, rgba(225, 78, 202, 0)) !important;
+    }
+    .block-three, .block-four {
+        background: linear-gradient(90deg, rgb(31 133 247) 0, rgba(225, 78, 202, 0)) !important;
+    }
+    .img-he {
+        width: 80px !important;
+        height: 80px !important;
+    }
+{% endblock %}
+
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        {% for i in developed_by %}
+            <div class="col-md-3">
+                <div class="card card-testimonial">
+                    <div class="card-header card-header-avatar pt-4">
+                        <a href="javascript:void(0)">
+                            <img class="img-he img img-raised" src="{{ i.image.url }}" alt="developed by">
+                        </a>
+                    </div>
+                    <div class="card-footer mb-0">
+                        <h4 class="card-title">{{ i.name }}</h4>
+                        <div class="button-container">
+                            <button class="btn btn-icon btn-round btn-linkedin" onclick="developed_by('/{{ i.short_name|lower }}/linkedin/link/')">
+                                <i class="fa-brands fa-linkedin"></i>
+                            </button>
+                            <button class="btn btn-icon btn-round btn-instagram" onclick="developed_by('/{{ i.short_name|lower }}/instagram/link/')">
+                                <i class="fa-brands fa-instagram"></i>
+                            </button>
+                            <button class="btn btn-icon btn-round btn-linkedin" onclick="developed_by('/{{ i.short_name|lower }}/mail/link/')">
+                                <i class="fas fa-envelope-open"></i>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+    <div class="row">
+        {% for j in developed_gallery_obj %}
+            <div class="col-md-4" bis_skin_checked="1">
+                <div class="card card-testimonial" bis_skin_checked="1">
+                    <div class="card-footer mb-0" bis_skin_checked="1"> 
+                        <img class="" style="{{ j.style|safe }}" src="{{ j.image.url }}" alt="developed by">
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function developed_by(url) {
+            window
+                .open(url, '_blank')
+                .focus();
+        }
+    </script>
+{% endblock %}
+

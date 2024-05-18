@@ -1,0 +1,110 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    History
+{% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <a href="https://cse-aiml.live" target="_blank">
+                                CSE AIML Logs
+                            </a>
+                        </div>
+                        <table id="datatable1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Enrollment</th>
+                                    <th>Modification</th>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Verify</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if historys == 'no' %}
+                                    <tr>
+                                        <td>0</td>
+                                        <td>
+                                            <a href="/history/0/" style="color: #3856ff;">
+                                                Not In Session
+                                            </a>
+                                        </td>
+                                        <td>{{ modified_not }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                {% endif %}
+                                {% for i in profile_list %}
+                                    {% if i.username == 'logs' %}
+                                        <tr>
+                                        <td>0</td>
+                                        <td>
+                                            <a href="/history/logs/" style="color: #3856ff;">
+                                                Not In Session
+                                            </a>
+                                        </td>
+                                        <td>{{ i.modified }}</td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                    </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td>{{ i.id }}</td>
+                                            {% if i.modified == '' %}
+                                                <td>
+                                                     {{ i.username }}
+                                                </td>
+                                            {% else %}
+                                                <td>
+                                                    <a href="/history/{{ i.h_id }}/" style="color: #3856ff;">
+                                                        {{ i.username }}
+                                                    </a>
+                                                </td>
+                                            {% endif %}
+                                            <td>{{ i.modified }}</td>
+                                            <td>{{ i.email }}</td>
+                                            <td>
+                                                <a href="/{{ i.username }}/" target="_blank" style="color: #3856ff;">
+                                                    {{ i.name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ i.is_verified }}</td>
+                                            <td>{{ i.created_at }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    $('#datatable1').DataTable({
+        order: [[0, 'asc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "457px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+    });
+
+{% endblock %}

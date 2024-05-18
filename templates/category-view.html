@@ -1,0 +1,45 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} 
+    {{ subcat.main_title }} 
+{% endblock %}
+
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            {% if not subcat.html == '1' %}
+                {{ subcat.html|safe }}
+            {% endif %}
+        </div>
+        <div class="row">
+            {% for i in sub_category %}
+                {% if not i.html %}
+                    <div class="col-md-3">
+                        <div class="card">
+                            <div class="card-header">
+                                <h5 class="title">
+                                    {{ i.text|safe }}
+                                </h5>
+                            </div>
+                            <div class="card-body">
+                                <div class="toolbar">
+                                    <a href="{{ i.link }}" target="_blank" class="btn btn-info">
+                                        {{ i.link_text|safe }}
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                {% else %}
+                    {{ i.html|safe }}
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_1 %}
+
+{% endblock %}

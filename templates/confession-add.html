@@ -1,0 +1,146 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} confession {% endblock %}
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <div class="card-header mb-1 pt-4 mt-2">
+                        <h1 class="card-title"
+                            style="font-family: 'auto';color: black;font-size: 25px;font-weight: 600;margin-left: 15px;">
+                            Confession
+                        </h1>
+                        <hr>
+                        <form class="form" method="POST" id="confession_form" onsubmit="confession(); return false;">
+                            {% csrf_token %}
+
+                            <div class="card-body">
+                                <p class="mb-3">
+                                    Send Private Message
+                                </p>
+                                <div class="form-group">
+                                    <label for="message" style="font-weight: 600; font-size: 15px;">
+                                        Message
+                                        <span style="color:red;">*</span>
+                                    </label>
+                                    <div class="input-group">
+
+                                        <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                <i class="far fa-comment"></i>
+                                            </div>
+                                        </div>
+                                        <textarea name="message" id="message" class="form-control" placeholder="Leave a message here.....!"
+                                                  style="border-radius: 10px;border: 1px solid rgba(29,37,59,.2); border-left: none;
+                                                  border-bottom-left-radius:0; border-top-left-radius:0; max-height: none;
+                                                  font-size: 15.5px;"
+                                                  required rows="6"></textarea>
+                                        <input type="hidden" id="just_temp" name="just_temp" value="">
+
+                                    </div>
+
+                                </div>
+                                <div class="text-left mt-2" style="color: black !important;;">
+                                    Characters left: <b><span id="char_count">300</span></b>
+                                </div>
+                                <div class="form-group m-0" id="main_error" {% if not messages %}style="display: none"{% endif %}  >
+
+                                    <div class="input-group m-0" style="color: red;" >
+                                        <div class="row">
+                                            <div class="col-12" >
+                                                <div class="fog-pwd text-center">
+                                                    <div id="change" style="border-color: red !important;
+                                                                color: red !important;
+                                                                background-color: #ff5e5929 !important;"
+                                                    class="alert alert-info m-0">
+                                                        {% if messages %}
+                                                            {% for message in messages %}
+                                                                <span class="alert-inner--text" id="messege_error" >{{ message }}</span>
+                                                            {% endfor %}
+                                                        {% endif %}
+                                                        <span class="alert-inner--text" id="confession_error"></span>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-footer">
+                                <button class="btn btn-info btn-lg btn-block mb-3">
+                                    Send Message
+                                </button>
+                                <div class="link text-black-50 text-center">
+                                    Say What You Think or Leave a message anonymously using the form above!
+                                </div>
+                                <div class="pull-left mt-3">
+                                    <h6>
+                                        <a href="/confession/views/" class="link footer-link text-info text-capitalize">
+                                            View All Confessions
+                                        </a>
+                                    </h6>
+                                </div>
+                                <div class="pull-right mt-3">
+                                    <h6>
+                                        <a href="/contact/" class="link footer-link text-info">
+                                            Any Suggestion, Feedback ?
+                                        </a>
+                                    </h6>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_1 %}
+     <script>
+        function confession() {
+            $('#login_loader').css('display', 'flex');
+            var len = $('#message').val().length;
+            $('#just_temp').val(len);
+            $.ajax({
+                url: '/confession/',
+                method: 'POST',
+                data: $('#confession_form').serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    $('#main_error').css('display', 'block');
+                    $('#messege_error').css('display', 'none');
+
+                    if (data.status === true) {
+                        $('#confession_error').html(data.msg).css('color', 'green');
+                        $("#change").css('background-color', '#6aff5929');
+                        $('#confession_form').trigger('reset');
+                        $('#char_count').text(300);
+                    }
+                    else {
+                        $('#confession_error').html(data.msg).css('color', 'red');
+                        $("#change").css('background-color', '#ff5e5929');
+                        if (data.create === "field_error") {
+                            $('#message').focus();
+                        }
+                    }
+                    $('#login_loader').css('display', 'none');
+
+                }
+            });
+
+        }
+
+        $(document).ready(function () {
+            $('#message').keyup(function () {
+                var len = $(this).val().length;
+                var char = 300 - len;
+                $('#char_count').text(char);
+            });
+        });
+    </script>
+{% endblock %}

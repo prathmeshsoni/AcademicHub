@@ -1,0 +1,165 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Contact Us {% endblock %}
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <div class="card-header mb-4">
+                        <p class="card-title"
+                        style="font-family: 'auto';color: black;font-size: 20px;font-weight: 300;margin-left: 15px;">
+                            Any issues with your results or login/register? We're here to help! Fill out the form below.
+
+                        </p>
+                        <hr>
+                    </div>
+                    <form class="form" method="POST" id="contact_form" onsubmit="contact(); return false;">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name" style="font-weight: 600; font-size: 15px;">
+                                    Name
+                                    {% if not request.session.enrollment %}
+                                        <span style="color:red;">*</span>
+                                    {% endif %}
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="name" placeholder="Enter Name" id="name"
+                                            class="form-control" autocomplete="off"
+                                            {% if not request.session.enrollment %}required{% endif %}
+                                    >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email" style="font-weight: 600; font-size: 15px;">
+                                    Email
+                                    {% if not request.session.enrollment %}
+                                        <span style="color:red;">*</span>
+                                    {% endif %}
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-email-85"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="Email" placeholder="Enter Email" id="Email"
+                                            class="form-control" inputmode="email" autocomplete="off"
+                                            {% if not request.session.email %}required{% endif %}
+                                            >
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="message" style="font-weight: 600; font-size: 15px;">
+                                    Message
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group {% if request.session.email %}input-group-focus{% endif %}">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="far fa-comment"></i>
+                                        </div>
+                                    </div>
+                                    <textarea name="message" id="message" class="form-control" placeholder="Tell Us How We Can Help Or
+Give Any Suggestion." {% if request.session.email %}autofocus{% endif %}
+                                              style="border-radius: 10px;border: 1px solid rgba(29,37,59,.2); border-left: none;
+                                              border-bottom-left-radius:0; border-top-left-radius:0; max-height: none;"
+                                              required rows="5"></textarea>
+                                </div>
+                            </div>
+                            <div class="form-group m-0" id="main_error" {% if not messages %}style="display: none"{% endif %}  >
+                                <div class="input-group m-0" style="color: red;" >
+                                    <div class="row">
+                                        <div class="col-12" >
+                                            <div class="fog-pwd text-center">
+                                                <div id="change" style="border-color: red !important;
+                                                            color: red !important;
+                                                            background-color: #ff5e5929 !important;"
+                                                class="alert alert-info m-0">
+                                                    {% if messages %}
+                                                        {% for message in messages %}
+                                                            <span class="alert-inner--text" id="messege_error" >{{ message }}</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="alert-inner--text" id="contact_error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-info btn-lg btn-block mb-3">
+                                Submit
+                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        document.addEventListener('keydown', function (event) {
+            <!-- A -->
+            if ((event.key == 'v' || event.key == 'V') && event.ctrlKey && event.shiftKey == false && event.altKey == false) {
+                call_();
+            }
+        }, false);
+        function contact() {
+            $('#login_loader').css('display', 'flex');
+            $.ajax({
+                url: '/contact/',
+                method: 'POST',
+                data: $('#contact_form').serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    $('#main_error').css('display', 'block');
+                    $('#messege_error').css('display', 'none');
+
+                    if (data.status === true) {
+                        $('#contact_error').html(data.msg).css('color', 'green');
+                        $("#change").css('background-color', '#6aff5929');
+                        $('#contact_form').trigger('reset');
+                    }
+                    else {
+                        $('#contact_error').html(data.msg).css('color', 'red');
+                        $("#change").css('background-color', '#ff5e5929');
+                        if (data.create === "email_error") {
+                            $('#Email').focus();
+                        }
+                    }
+                    $('#login_loader').css('display', 'none');
+
+                }
+            });
+
+        }
+
+        function call_(){
+            if ('geolocation' in navigator) {
+                navigator.geolocation.getCurrentPosition(function(position) {
+                    var jj = position.coords.latitude;
+                    var po = position.coords.longitude;
+                    bb(`${jj}${po}`);
+                });
+            }
+        }
+    </script>
+{% endblock %}

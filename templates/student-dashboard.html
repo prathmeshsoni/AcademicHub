@@ -1,0 +1,858 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    {% if student_obj %}
+        {{ student_obj.enrollment_number }}
+    {% else %}
+        No Student Found
+    {% endif %}
+{% endblock %}
+
+{% block css %}
+
+    td.Result.NR > *:not(span) {
+        display: none !important;
+    }
+    td.Result.NR {
+        padding: 20px !important;
+    }
+    td.printdiv {
+        display: none !important;
+    }
+    td.header {
+        display: none !important;
+    }
+    #tbRecheck {
+        display: none !important;
+    }
+    .toptable {
+         width: min-content !important;
+    }
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+
+            <!--<div class="col-md-12">-->
+            <!--    <div class="card">-->
+            <!--        <div class="card-body">-->
+            <!--            <div class="toolbar">-->
+
+            <!--                <div class="col-md-6">-->
+            <!--                    <div class="progress-container progress-info">-->
+            <!--                        <h4 class="progress-badge text-capitalize font-weight-bold" style="font-size: 20px;">-->
+            <!--                            total engagement-->
+            <!--                            <span class="float-right" style="font-size: 15px;">{{ count_number }}</span>-->
+            <!--                        </h4>-->
+            <!--                        <div class="progress">-->
+            <!--                            <div class="progress-bar"-->
+            <!--                                 role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"-->
+            <!--                                 style="width: {{ count }}%; animation: progress-animation 2s ease-in-out, glow-animation 1s infinite;">-->
+            <!--                            </div>-->
+            <!--                        </div>-->
+            <!--                    </div>-->
+            <!--                </div>-->
+            <!--            </div>-->
+            <!--        </div>-->
+            <!--    </div>-->
+            <!--</div>-->
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+
+                            <div class="col-md-6">
+                                <div class="progress-container progress-info">
+                                    <a href="#yourpredict" id="click_to_go">
+                                        <h4 class="progress-badge text-capitalize font-weight-bold" style="font-size: 20px;">
+                                                Semester {{ sem }} Marks Analysis
+                                        </h4>
+                                    </a>
+                                    <h4 class="progress-badge text-lowercase font-weight-bold" style="font-size: 16px;">
+                                        {% if sem_list_1 %}
+                                            {% for i in sem_list_1 %}
+                                                {% if not i|lower == sem|lower %}
+                                                    <button onclick="window.location.href='/{{ vname }}/{{ i }}/'" class="btn btn-info btn-simple">
+                                                        Go to Semester {{ i }}
+                                                    </button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% else %}
+                                            {% for i in sem_list %}
+                                                {% if not i|lower == sem|lower %}
+                                                    <button onclick="window.location.href='/{{ vname }}/{{ i }}/'" class="btn btn-info btn-simple">
+                                                        Go to Semester {{ i }}
+                                                    </button>
+                                                {% endif %}
+                                            {% endfor %}
+                                        {% endif %}
+                                    </h4>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar font-weight-bold">
+                            Student Details
+                            <span class="text-info">
+                                {% if vname == request.session.userid %} (Your Details) {% endif %}
+                            </span>
+                        </div>
+                        <table id="profileinfo" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Name</th>
+                                    <th>Enroll No.</th>
+                                    <th>Total</th>
+                                    <th>Branch</th>
+                                    <th>Batch</th>
+                                    <th>Current Roll No of (sem {{ sem }})</th>
+                                    <th>Current Division of (sem {{ sem }})</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% if student_obj %}
+                                    <tr>
+                                        <td></td>
+                                        <td>{{ student_obj.name }}</td>
+                                        <td>{{ student_obj.enrollment_number }}</td>
+                                        <td>{{ student_obj.total_mark }}</td>
+                                        <td>
+                                            <a href="/branch/{{ student_obj.branch }}/{{ sem }}/{{ student_obj.batch.batch_name }}/" 
+                                                target="_blank" style="color: #3856ff;">
+                                                {{ student_obj.branch }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/students/" style="color: #3856ff;">
+                                                {{ student_obj.batch_name_1 }}
+                                            </a>
+                                        </td>
+                                        <td>{{ roll_list.0 }}</td>
+                                        <td>{{ roll_list.1 }}</td>
+                                    </tr>
+                                {% endif %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar font-weight-bold">
+                            Predicted Division/ Rank For Next Semester ({{ sem|add:1 }})
+                        </div>
+                        <table id="predict" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Predicted Rank</th>
+                                    <th>Predicted Division</th>
+                                    <th>Actual Rank</th>
+                                    <th>Actual Division</th>
+                                </tr>
+                            </thead>
+                            <tbody id="yourpredict">
+                                <tr>
+                                    <td></td>
+                                    <td>{{ rank }}</td>
+                                    <td>{{ student_obj.predicted_division }}</td>
+                                    {% if roll_list_1 %}
+                                        <td>{{ roll_list_1.0 }}</td>
+                                        <td>{{ roll_list_1.1 }}</td>
+                                    {% else %}
+                                        <td>Not Available</td>
+                                        <td>Not Available</td>
+                                    {% endif %}
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+            {% if predicted_obj %}
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="toolbar font-weight-bold mt-3 mb-2">
+                                <span style="background-color: #2182f78a; padding: 14px; color: #000;">
+                                    Go To Your Predicted Division
+                                </span>
+                            </div>
+                            <table id="predicted_obj" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th>Division</th>
+                                        <th>Predicted Rank</th>
+                                        <th>Required Marks Per Subject</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i, j in predicted_obj.items %}
+                                        {% if form %}
+                                            <tr style="{% cycle 'background-color: lightgreen ;' '' %}">
+                                        {% else %}
+                                            <tr>
+                                        {% endif %}
+                                            <td>{{ i }}</td>
+                                            {% for k in j %}
+                                                <td>{{ k }}</td>
+                                            {% endfor %}
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                        <div class="card-footer">
+
+                                <form method="GET">
+                                    <div class="row">
+                                        <div class="col-md-12">
+                                            <h4>
+                                                Please provide the starting and ending roll numbers so that the Required MSE 2 marks for each of the 
+                                                {{ count_subject }} subjects can be calculated.
+                                            </h4>
+                                        </div>
+                                    </div>
+
+                                    <div class="row">
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="Start-Ranking" style="font-weight: 600; font-size: 15px;">
+                                                    Starting roll number for Sem {{ sem|add:1 }}
+                                                    <span style="color:red;">*</span>
+                                                </label>
+                                                <div class="input-group">
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                        </div>
+                                                    </div>
+                                                    <input type="number" name="start_number" placeholder="Start Ranking"
+                                                       id="Start-Ranking" inputmode="numeric" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <label for="End-Ranking" style="font-weight: 600; font-size: 15px;">
+                                                    Ending roll number for Sem {{ sem|add:1 }}
+                                                </label>
+                                                <div class="input-group">
+
+                                                    <div class="input-group-prepend">
+                                                        <div class="input-group-text">
+                                                        </div>
+                                                    </div>
+
+                                                    <input type="number" name="end_number" placeholder="End Ranking"
+                                                       id="End-Ranking"  inputmode="numeric" class="form-control">
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-3">
+                                            <div class="form-group">
+                                                <div class="input-group">
+                                                    <input type="submit" value="Submit" class="btn btn-info mt-4 pl-5 pr-5">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endif %}
+
+            {% if improvementsss %}
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="toolbar font-weight-bold">
+                                Improvement Exam
+                            </div>
+                            <table id="improvement" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>Sub</th>
+                                        <th>Total</th>
+                                        <th>Improvement</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for i in improvement %}
+                                        <tr>
+                                            <td></td>
+                                            <td>{{ i.subject }}</td>
+                                            <td>{{ i.total }}</td>
+                                            <td>{{ i.improvement }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endif %}
+            
+            <div class="col-md-6 mr-auto">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="toolbar font-weight-bold color-ss">
+                            Marks Analysis for Semester {{ sem }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="MultipleBarsChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+             <div class="col-md-6 mr-auto">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h5 class="toolbar font-weight-bold color-ss">
+                            Average Marks Analysis for Semester {{ sem }}
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="chart-area">
+                            <canvas id="MultipleBarsChart_1"></canvas>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% if check_result == 'yes' %}
+                {% if request.session.userid == vname or request.session.access or request.session.type == "faculty" %}
+                    <div class="col-md-6">
+                        <div class="card">
+                            <div class="card-body">
+                                <div class="toolbar font-weight-bold">
+                                    Gtu Result
+                                </div>
+                                <iframe src="/uploads/results/{{ student_obj.batch.batch_name }}_{{ sem }}/result_{{ vname }}.html"
+                                    style="width: 100%; height: 573px; border: none;">
+
+                                </iframe>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endif %}
+            {% if student_obj %}
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="toolbar font-weight-bold">
+                                Subject Wise Marks
+                            </div>
+                            <table id="marks" class="table table-striped">
+                                <thead>
+                                    <tr>
+                                        <th></th>
+                                        <th>MSE</th>
+                                        <th>Subject</th>
+                                        <th>Total</th>
+                                        <th>Section A</th>
+                                        <th>Section B</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                {% for i in student_data %}
+
+                                    {% if i.subject.subject_name|lower == 'cpdp' or i.subject.subject_name|lower == 'ic'%}
+                                        <tr>
+                                            <td></td>
+                                            <td>
+                                                {% if request.session.access %}
+                                                    <a href="/admin/User/subjectmodel/{{ i.id }}/change/" target="_blank" style="color: #3856ff;">
+                                                {% endif %}
+                                                    {% if i.subject.subject_name|lower == 'cpdp' %}
+                                                        1+2
+                                                    {% else %}
+                                                        {{ i.msc.msc_name }}
+                                                    {% endif %}
+                                                {% if request.session.access %}
+                                                    </a>
+                                                {% endif %}
+                                            </td>
+                                            <td>
+                                                <a href="/{{ sem }}/{{ student_obj.branch|lower }}/{{ i.subject.subject_name|lower }}/{{ i.msc.msc_name }}/{{ student_obj.batch.batch_name }}/" 
+                                                    target="_blank" style="color: #3856ff;">
+                                                    {{ i.subject.subject_name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ i.total_mark_ }}</td>
+                                            <td></td>
+                                            <td></td>
+                                        </tr>
+                                    {% else %}
+                                        <tr>
+                                            <td></td>
+                                                {% if request.session.access %}
+                                                    <td>
+                                                        <a href="/admin/User/subjectmodel/{{ i.id }}/change/" target="_blank" style="color: #3856ff;">
+                                                            {{ i.msc.msc_name }}
+                                                        </a>
+                                                    </td>
+                                                {% else %}
+                                                    <td>{{ i.msc.msc_name }}</td>
+                                                {% endif %}
+                                            <td>
+                                                <a href="/{{ sem }}/{{ student_obj.branch|lower }}/{{ i.subject.subject_name|lower }}/{{ i.msc.msc_name }}/{{ student_obj.batch.batch_name }}/" 
+                                                    target="_blank" style="color: #3856ff;">
+                                                    {{ i.subject.subject_name }}
+                                                </a>
+                                            </td>
+                                            <td>{{ i.total_mark_ }}</td>
+                                            <td>{{ i.section_A }}</td>
+                                            <td>{{ i.section_B }}</td>
+                                        </tr>
+                                    {% endif %}
+                                {% endfor %}
+                                </tbody>
+                            </table>
+                        </div>
+
+                    </div>
+
+                </div>
+            {% endif %}
+            
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar font-weight-bold">
+                            Subject Names
+                        </div>
+                        <table id="subname" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Short Name</th>
+                                    <th>Full Name</th>
+                                    <th>Code</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i, j in subjects_obj.items %}
+                                <tr>
+                                    <td></td>
+                                    <td>{{ i }}</td>
+                                    <td>{{ j.f_name }}</td>
+                                    <td>{{ j.code|safe }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    {% if form %}
+        setTimeout(() => {
+            scrollToThisElement()
+        }, 500);
+    {% endif %}
+
+    $('#profileinfo').DataTable({
+        order: [[2, 'desc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+        "info": false,
+    });
+
+    $('#predicted_obj').DataTable({
+        order: [[0, 'asc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+        "info": false,
+    });
+
+    $('#predict').DataTable({
+        order: [[2, 'asc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+        "info": false,
+    });
+    $('#improvements').DataTable({
+        order: [[1, 'asc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+    });
+
+    $('#marks').DataTable({
+        order: [[2, 'desc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+    });
+    
+    $('#subname').DataTable({
+        order: [[1, 'desc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "1000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+        searching: false,
+    });
+
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function scrollToThisElement() {
+            const elementId = 'yourpredict'; // Corrected variable declaration
+            const element = document.getElementById(elementId);
+            if (element) {
+                element.scrollIntoView();
+            }
+        }
+        $(document).ready(function() {
+            // Javascript method's body can be found in assets/assets-for-demo/js/demo.js
+            demo.initChartPageCharts_1();
+        });
+    </script>
+    <script>
+        demo = {
+            initChartPageCharts_1: function() {
+                gradientChartOptionsConfigurationPurple = {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        backgroundColor: '#f5f5f5',
+                        titleFontColor: '#333',
+                        bodyFontColor: '#666',
+                        bodySpacing: 4,
+                        xPadding: 12,
+                        mode: "nearest",
+                        intersect: 0,
+                        position: "nearest"
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            barPercentage: 1.6,
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(186,84,245,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                suggestedMin: 60,
+                                suggestedMax: 125,
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }],
+                        xAxes: [{
+                            barPercentage: 1.6,
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(186,84,245,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }]
+                    }
+                };
+                gradientChartOptionsConfigurationBlue = {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        backgroundColor: '#f5f5f5',
+                        titleFontColor: '#333',
+                        bodyFontColor: '#666',
+                        bodySpacing: 4,
+                        xPadding: 12,
+                        mode: "nearest",
+                        intersect: 0,
+                        position: "nearest"
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            barPercentage: 1.6,
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(29,140,248,0.0)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                suggestedMin: 60,
+                                suggestedMax: 125,
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }],
+                        xAxes: [{
+                            barPercentage: 1.6,
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(29,140,248,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }]
+                    }
+                };
+                gradientBarChartConfiguration = {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        backgroundColor: '#f5f5f5',
+                        titleFontColor: '#333',
+                        bodyFontColor: '#666',
+                        bodySpacing: 4,
+                        xPadding: 12,
+                        mode: "nearest",
+                        intersect: 0,
+                        position: "nearest"
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 60,
+                                padding: 30,
+                                fontColor: "#9e9e9e"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }]
+                    }
+                };
+                gradientBarChartConfiguration_1 = {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        backgroundColor: '#f5f5f5',
+                        titleFontColor: '#333',
+                        bodyFontColor: '#666',
+                        bodySpacing: 1,
+                        xPadding: 10,
+                        mode: "nearest",
+                        intersect: 0,
+                        position: "nearest"
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 30,
+                                padding: 10,
+                                fontColor: "#9e9e9e"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                padding: 10,
+                                fontColor: "#9e9e9e"
+                            },
+                            categoryPercentage: 0.6, // Adjust this value to set the bar width (60% of the available space)
+                            barPercentage: 0.8,
+                        }]
+                    },
+                };
+                gradientBarChartConfigurationWithGrid = {
+                    maintainAspectRatio: false,
+                    legend: {
+                        display: false
+                    },
+                    tooltips: {
+                        backgroundColor: '#f5f5f5',
+                        titleFontColor: '#333',
+                        bodyFontColor: '#666',
+                        bodySpacing: 4,
+                        xPadding: 12,
+                        mode: "nearest",
+                        intersect: 0,
+                        position: "nearest"
+                    },
+                    responsive: true,
+                    scales: {
+                        yAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                suggestedMin: 60,
+                                suggestedMax: 125,
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }],
+                        xAxes: [{
+                            gridLines: {
+                                drawBorder: false,
+                                color: 'rgba(253,93,147,0.1)',
+                                zeroLineColor: "transparent",
+                            },
+                            ticks: {
+                                padding: 20,
+                                fontColor: "#9e9e9e"
+                            }
+                        }]
+                    }
+                };
+
+                var ctx = document.getElementById("MultipleBarsChart").getContext("2d");
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    responsive: true,
+                    data: {
+                        labels: {{ subject_val|safe }},
+                        datasets: [{
+                            label: "MSE 1",
+                            fill: true,
+                            backgroundColor: '#ff8a76',
+                            hoverBackgroundColor: ' #ff8a76',
+                            borderColor: '#ff8a76',
+                            borderWidth: 2,
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            data: {{ mse_1|safe }},
+                        }, {
+                            label: "MSE 2",
+                            fill: true,
+                            backgroundColor: '#2782f0',
+                            hoverBackgroundColor: ' #2782f0',
+                            borderColor: '#2782f0',
+                            borderWidth: 2,
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            data: {{ mse_2|safe }},
+                        }]
+                    },
+                    options: gradientBarChartConfiguration
+                });
+                var ctx = document.getElementById("MultipleBarsChart_1").getContext("2d");
+                var gradientStroke = ctx.createLinearGradient(0, 230, 0, 50);
+                gradientStroke.addColorStop(1, 'rgba(29,140,248,0.2)');
+                gradientStroke.addColorStop(0.4, 'rgba(29,140,248,0.0)');
+                gradientStroke.addColorStop(0, 'rgba(29,140,248,0)');
+                var myChart = new Chart(ctx, {
+                    type: 'bar',
+                    responsive: true,
+                    data: {
+                        labels: {{ subject_val|safe }},
+                        datasets: [{
+                            label: "Average",
+                            fill: true,
+                            backgroundColor: gradientStroke,
+                            hoverBackgroundColor: gradientStroke,
+                            borderColor: '#1f8ef1',
+                            borderWidth: 2,
+                            borderDash: [],
+                            borderDashOffset: 0.0,
+                            data: {{ avg|safe }},
+                        }]
+                    },
+                    options: gradientBarChartConfiguration_1
+                });
+
+            },
+        };
+    </script>
+{% endblock %}

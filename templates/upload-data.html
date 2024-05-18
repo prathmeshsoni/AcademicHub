@@ -1,0 +1,211 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Upload {% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <form class="form" enctype="multipart/form-data" method="POST" id="upload_form" onsubmit="uploads(); return false;">
+                    {% csrf_token %}
+                    <div class="card p-2">
+                        <div class="card-header">
+                            {% if messages %}
+
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <a class="navbar-brand" style="color: red; font-weight:600;" >{{ message }}</a>
+                                    {% else %}
+                                        <a class="navbar-brand" style="color: green; font-weight:600;" >{{ message }}</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% endif %}
+                            <h4 class="card-title">Just Upload Result</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="batch_id">
+                                        Batch Year
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="batch" id="batch_id" data-style="btn btn-info">
+                                            {% for i in batch_obj %}
+                                                <option value="{{ i.batch_name }}">{{ i.batch_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="branch_id">
+                                        Branch
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="branch" id="branch_id" data-style="btn btn-info">
+                                            {% for i in branch_obj %}
+                                                <option value="{{ i.branch_name }}">{{ i.branch_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="semester_id">
+                                        Semester
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="semester" id="semester_id" data-style="btn btn-info">
+                                            {% for i in sem_obj %}
+                                                <option value="{{ i.sem_name }}">{{ i.sem_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="subject_id">
+                                        Subject
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="subject" id="subject_id" data-style="btn btn-info">
+                                            {% for i in subject_objs %}
+                                                <option value="{{ i.subject_name }}">
+                                                    {{ i.subject_name }} - {{ i.subject_full_name }}
+                                                </option>
+                                            {% endfor %}
+                                        </select>
+
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="msc_id">
+                                        MSE
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="msc" id="msc_id" data-style="btn btn-info">
+                                            {% for i in msc_obj %}
+                                                <option value="{{ i.msc_name }}">{{ i.msc_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="fileinput fileinput-new text-center" data-provides="fileinput" style="width: 100% !important;">
+                                        <div class="fileinput-new thumbnail" style="width: 100% !important;">
+                                            <label for="pdf_file" class="card-title">
+                                                <i class="fa fa-cloud-upload-alt fa-5x vue-uploadbox-icon text-info"
+                                                   style="
+                                                        display: flex;
+                                                        height: 150px;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                "></i>
+                                            </label>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                        <div>
+                                            <span class="btn btn-success btn-round btn-file" style="background: #2085f8 !important;">
+                                                <span class="fileinput-new">
+                                                    Select PDF
+                                                </span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="pdf_file" id="pdf_file" accept=".csv, .pdf" required />
+                                            </span>
+                                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists"
+                                               data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div>
+                                        <input type="hidden" id="confirm_auth" name="confirm_auth"
+                                            value="{% if confirm_auth %}0{% else %}1{% endif %}" >
+                                        <input type="hidden" name="verify_data" value="upload_data">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-info pr-5 pl-5 pt-3 pb-3" style="">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    var confirm_auth = $('#confirm_auth').val();
+    console.log(confirm_auth);
+    if(parseInt(confirm_auth, 10) === 0){
+        alert('Upload Csv');
+    }
+
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function uploads() {
+            $('#login_loader').css('display', 'flex');
+            var formData = new FormData(document.getElementById('upload_form'));
+            $.ajax({
+                url: '/upload/',
+                method: 'POST',
+                data: formData,
+                dataType: 'JSON',
+                contentType: false,
+                processData: false,
+                success: function (data) {
+                    $('#login_loader').css('display', 'none');
+                    if (data.status === true) {
+                        $('#main_error').css('display', 'block');
+                        $('#messege_error').css('display', 'none');
+                        $('#login_error').html(data.msg);
+                        $('#Password').val('');
+                        if (data.hasOwnProperty('url')) {
+                            window.location.href = data.url;
+                        }
+                        else {
+                            setTimeout(function () {
+                                window.location.href = "/upload/";
+                            }, 2000);
+                        }
+                    }
+                    else {
+                        $('#login_loader').css('display', 'none');
+                        $('#main_error').css('display', 'block');
+                        $('#messege_error').css('display', 'none');
+                        $('#login_error').html('Something is Wrong Try Again...').css('color', 'red');
+                        window.location.href = "/upload/";
+                    }
+                },
+                error: function (data) {
+                    $('#login_loader').css('display', 'none');
+                    window.location.href = "/upload/";
+                }
+            });
+        }
+    </script>
+{% endblock %}

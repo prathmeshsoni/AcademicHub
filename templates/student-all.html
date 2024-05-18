@@ -1,0 +1,68 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="content">
+        {% for i, j in all_student.items %}
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar font-weight-bold">
+                            {{ j.branch }} Student List Joining Year : {{ j.key_ }}
+                        </div>
+                        <table id="datatable{{ j.count }}" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Enroll No.</th>
+                                    <th>Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for student_obj in j.list %}
+                                    {% if request.session.userid == student_obj.enrollment_number %}
+                                        <tr style="background-color: #69ff329a;">
+                                    {% else %}
+                                        <tr>
+                                    {% endif %}
+                                        <td>
+                                            <a href="/{{ student_obj.enrollment_number }}/" style="color: #3856ff;" target="_blank">
+                                                {{ student_obj.enrollment_number }}
+                                            </a>
+                                        </td>
+                                        <td>
+                                            <a href="/{{ student_obj.enrollment_number }}/" style="color: #3856ff;" target="_blank">
+                                                {{ student_obj.name }}
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    var numRowsToShow = 9;
+    var scrollYValue2 = 0;
+        $('#datatable1 tbody tr:lt(' + numRowsToShow + ')').each(function () {
+        scrollYValue2 += $(this).height();
+    });
+    {% for i, j in all_student.items %}
+        $('#datatable{{ j.count }}').DataTable({
+            order: [[0, 'asc']],
+            scrollCollapse: true,
+            "iDisplayLength": -1,
+            scrollY: scrollYValue2 + "px",
+            "pagingType": "full_numbers",
+            responsive: true,
+            bPaginate: false,
+        });
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,253 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Faculty Login {% endblock %}
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+
+                            <div class="col-md-12">
+                                <div class="progress-container progress-info">
+                                    <h4 class="progress-badge text-capitalize font-weight-bold" style="font-size: 20px;">
+                                        total engagement
+                                        <span class="float-right" style="font-size: 15px;">
+                                            {{ count_number }}
+                                        </span>
+                                    </h4>
+                                    <div class="progress">
+                                        <div class="progress-bar"
+                                             role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100"
+                                             style="width: {{ count }}%; animation: progress-animation 2s ease-in-out, glow-animation 1s infinite;">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <div class="card-header mb-2">
+                        <h1 class="card-title"
+                            style="font-family: 'auto';color: black;font-size: 40px;font-weight: 600;margin-left: 15px;">
+                            Faculty Login
+                        </h1>
+                    </div>
+                    <form class="form" method="POST" id="login_form" onsubmit="login(); return false;">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="name" style="font-weight: 600; font-size: 15px;">
+                                    Username
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="name" placeholder="Username"
+                                       id="name" class="form-control" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Password" style="font-weight: 600; font-size: 15px;">
+                                    Password
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-lock-circle"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="password" name="Password" placeholder="Password" id="Password"
+                                           class="form-control" inputmode="password" required>
+                                </div>
+                            </div>
+                            <div class="form-group m-0" id="main_error" {% if not messages %}style="display: none"{% endif %}  >
+                                <div class="input-group m-0" style="color: red;" >
+                                    <div class="row">
+                                        <div class="col-12" >
+                                            <div class="fog-pwd text-center">
+                                                <div id="change" style="border-color: red !important;
+                                                            color: red !important;
+                                                            background-color: #ff5e5929 !important;"
+                                                class="alert alert-info m-0">
+                                                    {% if messages %}
+                                                        {% for message in messages %}
+                                                            <span class="alert-inner--text" id="messege_error" >{{ message }}</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="alert-inner--text" id="login_error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-info btn-lg btn-block mb-3">
+                                Login
+                            </button>
+                            <div class="pull-left">
+                                <h6>
+                                    <a href="javascript:void(0)" class="link footer-link text-info" onclick="msg_show_1();">
+                                        CREATE AN ACCOUNT ?
+                                    </a>
+                                </h6>
+                            </div>
+                            <div class="pull-right">
+                                <h6>
+                                    <a href="javascript:void(0)" class="link footer-link text-info" onclick="msg_show();">
+                                        Forgot Password?
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function msg_admin(check) {
+            if (check == 0) {
+                var name = prompt("Please enter your name. If your name is registered as faculty, we will send you a link to reset your password.")
+            }
+            else {
+                var name = prompt("Please enter your name. We Will Create Account For You, and send you login details to your email.")
+            }
+            if (name)
+            {
+                if (check == 0) {
+                    $.ajax({
+                        url: '/login/',
+                        method: 'POST',
+                        data: {
+                            f_name: name,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'JSON',
+                        success: function (data) {
+
+                        }
+                    });
+                }
+                else {
+                    $.ajax({
+                        url: '/login/',
+                        method: 'POST',
+                        data: {
+                            f_name_: name,
+                            csrfmiddlewaretoken: '{{ csrf_token }}'
+                        },
+                        dataType: 'JSON',
+                        success: function (data) {
+
+                        }
+                    });
+                }
+
+                $.notify({
+                    icon: "tim-icons icon-bell-55",
+                    message: "We will let you know soon."
+                }, {
+                    type: 'info',
+                    timer: 2000,
+                    placement: {
+                        from: 'top',
+                        align: 'right'
+                    }
+                });
+            }
+        }
+        function constract_html_click_here(check) {
+            if (check == 0){
+                let html = '<a href="javascript:void(0)" class="link footer-link text-info" onclick="msg_admin(0);">click here</a>';
+                return html;
+            }
+            else if (check == 2){
+                let html = '<a href="javascript:void(0)" class="link footer-link text-info" onclick="msg_admin(1);">click here</a>';
+                return html;
+            }
+            else if (check == 3){
+                let html = '<a href="/developed-by/?key=create account" class="link footer-link text-info" target="_blank">here</a>';
+                return html;
+            }
+            else {
+                let html = '<a href="/developed-by/?key=forgot password" class="link footer-link text-info" target="_blank">here</a>';
+                return html;
+            }
+        }
+        function msg_show() {
+            $('#main_error').css('display', 'block');
+            $('#messege_error').css('display', 'block');
+            var text = constract_html_click_here(0)
+            var text_1 = constract_html_click_here(1)
+            $('#login_error').html(`For Forgot Password, Please contact the admin ${text_1}, or simply ${text}`).css('color', 'red');
+        }
+        function msg_show_1() {
+            $('#main_error').css('display', 'block');
+            $('#messege_error').css('display', 'block');
+            var text = constract_html_click_here(2)
+            var text_1 = constract_html_click_here(3)
+            $('#login_error').html(`For Create Account, Please contact the admin ${text_1}, or simply ${text}`).css('color', 'red');
+        }
+
+        function login() {
+            $('#login_loader').css('display', 'flex');
+            $.ajax({
+                url: '/login/',
+                method: 'POST',
+                data: $('#login_form').serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    if (data.status === true) {
+                        $('#main_error').css('display', 'block');
+                        $('#messege_error').css('display', 'none');
+                        $('#login_error').html(data.msg);
+                        if (data.create === "login_success") {
+                            $('#login_error').html(data.msg).css('color', 'green');
+                            $("#change").css('background-color', '#6aff5929');
+                            $('#login_form').trigger('reset');
+                            $('#login_loader').css('display', 'none');
+                            setTimeout(function () {
+                                window.location.href = data.url;
+                            }, 500);
+                        }
+                        setTimeout(function () {
+                            $('#login_loader').css('display', 'none');
+                        }, 650);
+                    }
+                    else {
+                        $('#login_loader').css('display', 'none');
+                        $('#main_error').css('display', 'block');
+                        $('#messege_error').css('display', 'none');
+                        $('#login_error').html('Something is Wrong Try Again...').css('color', 'red');
+                        setTimeout(function () {
+                            window.location.href = "/faculty/login/";
+                        }, 2000);
+                    }
+                }
+            });
+
+        }
+    </script>
+{% endblock %}

@@ -1,0 +1,425 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    Home
+{% endblock %}
+
+{% block css %}
+
+.timeline:after {
+    content: "";
+    position: absolute;
+    bottom: -5px;
+    left: 50%;
+    width: 0px;
+    height: 0px;
+    border-left: 15px solid transparent;
+    border-right: 14px solid transparent;
+    border-top: 21px solid #e3e3e3;
+    transform: translateY(50%);
+    margin-left: -13.5px;
+}
+
+.text_ {
+    position: absolute;
+    bottom: -20px;
+    left: 50%;
+    height: 0px;
+    width: 220px;
+    font-size: 22px;
+    color: #ff0000a6;
+    margin-left: 10px;
+    transform: translateY(50%);
+    transform: translate(-50%, -50%);
+}
+
+@media (max-width: 767.98px) {
+    .text_ {
+        left: 0;
+        transform: translateY(-50%);
+    }
+    .timeline:after{
+        left: 5%;
+    }
+}
+
+{% endblock %}
+
+
+{% block content %}
+<div class="content">
+
+    <div class="row mb-4">
+        <div class="col-md-12">
+            <div class="card card-timeline card-plain">
+                <div class="card-body">
+                    <ul class="timeline">
+                        <li>
+                            <div class="timeline-badge info cursor-pointer" onclick="goProfile()">
+                                👋
+                            </div>
+                            <div class="timeline-panel">
+                                {% if request.session.userid %}
+                                    <div class="timeline-heading cursor-pointer" onclick="goProfile()">
+                                        <span class="badge badge-pill badge-info">Hey {{ user_name }} 👋 </span>
+                                {% else %}
+                                    <div class="timeline-heading" onclick="goProfile()">
+                                        <span class="badge badge-pill badge-info">Hey 👋 </span>
+                                {% endif %}
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                       🌟 Welcome to CSE-AIML! Hello, friends! 🌟 Explore your academic journey, connect with the community, and stay informed.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge danger">
+                                <i class="tim-icons icon-planet"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="badge badge-pill badge-danger">Overview</span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                        Your academic journey simplified. Get a comprehensive view of your marks, explore recent confessions, stay updated with important announcements, and delve into subject result highlights. Connect with us effortlessly through our social media links.
+                                    </p>
+                                </div>
+                                <h6>
+                                    <i class="ti-time"></i> 11 hours ago via Twitter
+                                </h6>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-badge info">
+                                <i class="fas fa-trophy"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="badge badge-pill badge-info">Academic Excellence Path</span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                        Explore a detailed breakdown of your msc marks, delving into subject results and highlighting key GTU scores.
+                                        Gain valuable insights into your academic performance and track your progress semester by semester.
+                                    </p>
+                                    <p>
+                                        Instantly view your rank based on MSE results, providing a competitive perspective on your academic standing.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge warning_1">
+                                <i class="fas fa-handshake"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="badge badge-pill warning_1 badge-success">Community Connection Path</span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                        Explore the vibrant student community through engaging confessions, fostering connections among peers.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li>
+                            <div class="timeline-badge warning_2">
+                                📚
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="badge badge-pill warning_2 badge-warning">Academic Resources Hub</span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                        Access a wealth of academic resources, including notes, assignments, and materials, enhancing your learning experience.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <li class="timeline-inverted">
+                            <div class="timeline-badge warning_3">
+                                <i class="fa-solid fa-bullhorn"></i>
+                            </div>
+                            <div class="timeline-panel">
+                                <div class="timeline-heading">
+                                    <span class="badge badge-pill warning_3 badge-success">Stay Informed Path</span>
+                                </div>
+                                <div class="timeline-body">
+                                    <p>
+                                        Stay up-to-date with important updates, announcements, and critical information that impacts your college experience.
+                                    </p>
+                                </div>
+                            </div>
+                        </li>
+                        <div id="" class="text_">Click on any icons 👇</div>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-3 col-md-6">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+
+                        <div class="col-9">
+                            <div>
+                                <h3 class="card-title">Total Engagement</h3>
+                                <h4 class="card-title">{{ count_number }}</h4>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center icon-success numbers">
+                                <i class="fas fa-user-friends"></i>
+                            </div>
+                        </div>
+                    </div>
+                     <hr>
+                </div>
+            </div>
+        </div>
+        {% if request.session.userid %}
+            <div class="col-lg-3 col-md-6 cursor-pointer" onclick="goProfile()">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9">
+                                <div >
+                                    <h3 class="card-title">Your Profile</h3>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="info-icon text-center icon-info numbers">
+                                    <i class="fas fa-user"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="goRobot()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div>
+                                <h3 class="card-title">Website Structure</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center icon-info numbers">
+                                <i class="fa-solid fa-link"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="gonotes()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div>
+                                <h3 class="card-title">Notes & Resources</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center warning_1 numbers">
+                                <i class="fa-solid fa-book"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="goconfessions()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div >
+                                <h3 class="card-title">View Confessions</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center icon-warning numbers">
+                                <i class="tim-icons icon-chat-33"></i>
+                            </div>
+                        </div>
+                    </div>
+                     <hr>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="addconfessions()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div >
+                                <h3 class="card-title">Add Confession</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center icon-warning numbers">
+                                <i class="tim-icons icon-chat-33"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+        {% if not request.session.userid %}
+            <div class="col-lg-3 col-md-6 cursor-pointer" onclick="gologin()">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9">
+                                <div>
+                                    <h3 class="card-title">Login</h3>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="info-icon text-center icon-info numbers">
+                                    <i class="fa-solid fa-arrow-right-to-bracket"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-3 col-md-6 cursor-pointer" onclick="gosignup()">
+                <div class="card card-stats">
+                    <div class="card-body">
+                        <div class="row">
+                            <div class="col-9">
+                                <div>
+                                    <h3 class="card-title">Create Account</h3>
+                                </div>
+                            </div>
+                            <div class="col-3">
+                                <div class="info-icon text-center icon-info numbers">
+                                    <i class="fa-solid fa-user-plus"></i>
+                                </div>
+                            </div>
+                        </div>
+                        <hr>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="gochat()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div>
+                                <h3 class="card-title">Just Chat with us</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center warning_2 numbers">
+                                <i class="fa-solid fa-headset"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-3 col-md-6 cursor-pointer" onclick="goDeveloped()">
+            <div class="card card-stats">
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-9">
+                            <div>
+                                <h3 class="card-title">Developed by</h3>
+                            </div>
+                        </div>
+                        <div class="col-3">
+                            <div class="info-icon text-center icon-success numbers">
+                                <i class="p-0"><img class="sas" src="{% static 'assets/img/dev-team.png' %}"></i>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function goconfessions() {
+            var s = confirm("Go to Confessions page?");
+            if (s) {
+                window.location.href = "/confession/views/";
+            }
+        }
+        function addconfessions() {
+            var s = confirm("Add a new confession?");
+            if (s) {
+                window.location.href = "/confession/";
+            }
+        }
+        function gologin() {
+            var s = confirm("Login to your account?");
+            if (s) {
+                window.location.href = "/login/";
+            }
+        }
+        function gosignup() {
+            var s = confirm("Create a new account?");
+            if (s) {
+                window.location.href = "/register/";
+            }
+        }
+        function gochat() {
+            var s = confirm("Would you like to chat with us directly?");
+            if (s) {
+                window.open("https://chat.prathmeshsoni.works", '_blank');
+            }
+        }
+        function gonotes() {
+            var s = confirm("Access academic resources?");
+            if (s) {
+                window.location.href = "/c/notes/sem-6/";
+            }
+        }
+        function goDeveloped() {
+            window.location.href = "/developed-by/";
+        }
+        function goProfile() {
+            {% if not request.session.type == 'faculty' %}
+                window.location.href = "/{{ request.session.userid }}/";
+            {% else %}
+                window.location.href = "/faculty/profile/";
+            {% endif %}
+        }
+
+        function goRobot() {
+            window.location.href = "/site-tour/?home=true";
+        }
+
+    </script>
+{% endblock %}

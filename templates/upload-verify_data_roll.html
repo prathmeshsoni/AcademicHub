@@ -1,0 +1,246 @@
+{% extends 'index.html' %}
+{% load custom_filters %}
+{% load static %}
+{% block title %} Verification Page {% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="{% if on_load %} col-md-12 {% else %} col-md-8 {% endif %}">
+                <div class="card">
+                    <div class="card-body">
+                        {% if request.session.table_aa %}
+                            <div class="toolbar">
+                                {% if messages %}
+
+                                    {% for message in messages %}
+                                    
+                                        {% if message.tags == 'error' %}
+                                            <a class="navbar-brand" style="color: red; font-weight:600;" >{{ message }}</a>
+                                        {% else %}
+                                            <a class="navbar-brand" style="color: green; font-weight:600;" >{{ message }}</a>
+                                        {% endif %}
+                                        
+                                    {% endfor %}
+    
+                                {% endif %}
+                            </div>
+                            <div class="toolbar">
+                                <a class="navbar-brand" style="color: green; font-weight:600;" >Please Verify Data,<br> Then Click On Submit Button. ✔</a>
+                            </div>
+                            <div class="toolbar">
+                                <form method="post" action="/upload/rollno/" enctype="multipart/form-data" class="form-group">
+                                    {% csrf_token %}
+                                    <div class="row mt-3">
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="Birthday He">
+                                                Password
+                                                <span class="text-danger">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="form-group">
+                                                <input type="password" inputmode="numeric" id="Birthday He" name="fake-password" class="form-control" required value="0000" {% if not fake_password %}autofocus=""{% endif %} >
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 col-sm-6">
+                                            <label for="Auth Only">
+                                                Auth Only
+                                                <span class="text-danger">
+                                                    *
+                                                </span>
+                                            </label>
+                                            <div class="form-group">
+                                                <input type="password" inputmode="numeric" id="Auth Only" name="nahi-password" class="form-control" value="0000"
+                                                {% if fake_password and nahi_password %}{% else %}{% if fake_password %}autofocus=""{% endif %}{% endif %} >
+                                                <input type="hidden" id="confirm_auth" name="confirm_auth"
+                                                    value="{% if confirm_auth %}0{% else %}1{% endif %}" >
+                                                <input type="hidden" name="verify_data" value="verify_data">
+                                            </div>
+                                            <div>
+                                                <button type="submit" class="btn btn-info" style="
+                                                    bottom: 0;
+                                                    position: sticky;
+                                                    right: 0px;
+                                                    float: right;
+                                                    /* margin-top: 200px; */
+                                                ">
+                                                    Submit
+                                                </button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                            </div>
+                        {% else %}
+                            <div class="toolbar">
+                                <a href='/upload/rollno/' class="text-info">
+                                    Upload Division List .....
+                                </a>
+                            </div>
+                        {% endif %}
+                    </div>
+
+                </div>
+
+            </div>
+            {% if request.session.table_aa %}
+            <div class="col-md-4" style="{% if on_load %} display:none; {% endif %}" >
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <a class="navbar-brand" >
+                               Download Excel File
+                            </a>
+                        </div>
+                        <div class="toolbar">
+                            <div class="row mt-3">
+                                <div class="col-md-12 col-sm-12">
+                                    <div>
+                                        <input type="hidden" id="csv_name" value="{{ request.session.csv_name }}" >
+                                        <input type="hidden" id="on_load" value="{{ on_load }}" >
+                                        <button type="button" class="btn btn-info" id="download" style="
+                                            bottom: 0;
+                                            position: sticky;
+                                            right: 0px;
+                                            float: right;
+                                            /* margin-top: 200px; */
+                                        ">
+                                            Download
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endif %}
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar mb-3">
+                            {% if request.session.table_aa %}
+                                <form method="POST" action="/verification/delete/" enctype="multipart/form-data" class="form-group">
+                                    {% csrf_token %}
+                                    <div class="row mt-3">
+                                        <div class="col-md-6 col-sm-6">
+                                            {{ vname }}
+                                            <button type="submit" class="ml-2">
+                                                Delete Session
+                                            </button>
+                                        </div>
+                                    </div>
+                                </form>
+                            {% else %}
+                                Uploaded Division List Verification Page
+                            {% endif %}
+                        </div>
+                        <table id="datatable5" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Name</th>
+                                    <th>En No.</th>
+                                    <th>Div</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in request.session.table_aa %}
+                                {% for j,k in i.items %}  
+                                    {% for das in k %} 
+                                        <tr>
+                                            <td>{{ das.no }}</td>
+                                            <td>{{ das.name }}</td>
+                                            <td>
+                                                <a href="/{{ das.enroll }}/" style="color: #3856ff;">
+                                                    {{ das.enroll }}
+                                                </a>
+                                            </td>
+                                            <td>{{ das.div }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                {% endfor %}
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+            {% if not request.session.table_aa %}
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="toolbar">
+                                <a href='/upload/rollno/' class="btn btn-info">
+                                    Upload Division List .....
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+            
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    var on_load = parseInt($('#on_load').val(), 10);
+
+    if (on_load === 1) {
+        $('#download').click();
+    }
+
+    var numRowsToShow = 9;
+    var scrollYValue5 = 0;
+        $('#datatable5 tbody tr:lt(' + numRowsToShow + ')').each(function () {
+        scrollYValue5 += $(this).height();
+    });
+    if (scrollYValue5 === 0){
+        scrollYValue5 = 400;
+    }
+    var table = $('#datatable5').DataTable({
+        order: [[0, 'asc']],
+        scrollCollapse: true,
+        scrollY: scrollYValue5 + "px",
+        "iDisplayLength": -1,
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+    });
+
+{% endblock %}
+
+
+{% block script_1 %}
+
+    <script src="{% static 'assets/demo/editable.js' %}"></script>
+    <script>
+
+        function send_request(e) {
+            let cellData = {};
+
+            const row = e.target.parentElement;
+            const id = e.target.getAttribute('data-id');
+            const field = e.target.getAttribute('data-field');
+            const value = parseInt((e.target.textContent).trim(), 10);
+
+            cellData = {row, id, field, value};
+
+            fetch(`/update_item/${cellData.id}/`, {
+                method: 'POST', headers: {
+                    'Content-Type': 'application/json', 'X-CSRFToken': '{{ csrf_token }}'
+                }, body: JSON.stringify({field: cellData.field, value: cellData.value}),
+            })
+            .then(response => response.json())
+        }
+
+    </script>
+
+{% endblock %}

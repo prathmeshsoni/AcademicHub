@@ -1,0 +1,141 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+All Subject List
+{% endblock %}
+
+{% block link_css %}
+<link href="{% static 'assets/css/_treeview.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        {% if subject_obj.items %}
+            {% for batch, sem_list in subject_obj.items %}
+
+                <div class="col-md-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="tim-icons icon-chart-bar-32 text-primary "></i>
+                                {{ batch }}
+                                {% if batch|lower == "2021" %}
+                                    & D2D 2022
+                                {% else %}
+                                    & D2D 2023
+                                {% endif %}
+                            </h3>
+                        </div>
+                        <div class="card-body check">
+                            {% for sem, branch_list in sem_list.items %}
+                            <div class="treeview-colorful w-30 border border-secondary mx-4">
+                                <ul class="treeview-colorful-list mb-3">
+                                    {% for branch, l in branch_list.items %}
+                                            <li class="treeview-colorful-items">
+                                                <a class="treeview-colorful-items-header cursor-pointer pb-0" id="{{ sem|lower }}_{{ branch|lower }}_{{ batch|lower }}">
+                                                    <i class="fas fa-plus-circle"></i>
+                                                    <span class="ic-w mx-1">
+                                                        {{ branch|upper }} SEM {{ sem }} SUBJECTS
+                                                        {% if l.Main_access == "False" %}
+                                                            {% if not request.session.access and not request.session.type %}
+                                                                <i class="rotate-none fas fa-lock ml-2"></i>
+                                                            {% endif %}
+                                                        {% endif %}
+                                                    </span>
+                                                </a>
+                                                <ul class="nested mb-2">
+                                                    {% for sub in l.list %}
+                                                        <li class="treeview-colorful-items">
+                                                            <a class="treeview-colorful-items-header cursor-pointer pb-0" id="{{ sem|lower }}_{{ branch|lower }}_{{ sub.subject_name|lower }}_{{ batch|lower }}">
+                                                                <i class="fas fa-plus-circle"></i>
+                                                                <span>
+                                                                    <i class="rotate-none fas fa-book ic-w mx-1"></i>
+                                                                    {{ sub.subject_name|upper }} -
+                                                                    <span class="font-set" >
+                                                                        {{ sub.subject_f }}
+                                                                    </span>
+                                                                    {% if sub.Access == "False" %}
+                                                                        {% if not request.session.access and not request.session.type %}
+                                                                            <span class="badge badge-pill badge-info p-0 m-0">
+                                                                                <i class="rotate-none fas fa-lock ml-1"></i>
+                                                                            </span>
+                                                                        {% endif %}
+                                                                    {% endif %}
+
+                                                                </span>
+                                                            </a>
+                                                            <ul class="nested ">
+                                                                <li>
+                                                                    <a href="/{{ sem }}/{{ branch }}/{{ sub.subject_name }}/1/{{ batch }}/" class="p-0 treeview-colorful-items-header cursor-pointer text-info">
+                                                                        <div class="treeview-colorful-element">
+                                                                            <i class="far fa-circle mr-1"></i>
+                                                                            {% if not sub.subject_name|lower == 'cpdp' %}
+                                                                                MSE 1
+                                                                            {% else %}
+                                                                                Marks
+                                                                            {% endif %}
+                                                                        </div>
+                                                                    </a>
+                                                                </li>
+                                                                {% if not sub.subject_name|lower == 'cpdp' %}
+                                                                    <li>
+                                                                        <a href="/{{ sem }}/{{ branch }}/{{ sub.subject_name }}/2/{{ batch }}/" class="p-0 treeview-colorful-items-header cursor-pointer text-info">
+                                                                            <div class="treeview-colorful-element">
+                                                                                <i class="far fa-circle mr-1"></i>
+                                                                                MSE 2
+                                                                            </div>
+                                                                        </a>
+                                                                    </li>
+                                                                {% endif %}
+                                                            </ul>
+                                                        </li>
+                                                    {% endfor %}
+                                                </ul>
+                                            </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            {% if not forloop.last %}<hr style="border-top: 1px solid rgba(0, 0, 0, .1) !important;">{% endif %}
+                            {% endfor %}
+                        </div>
+                    </div>
+                </div>
+
+            {% endfor %}
+
+        {% else %}
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="tim-icons icon-chart-bar-32 text-primary "></i>
+                            No Data Available
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+<script>
+
+
+</script>
+{% endblock %}
+
+
+{% block script_1 %}
+<script src="{% static 'assets/js/treeview.min.js' %}"></script>
+<script src="{% static 'assets/js/treeview.min.map.js' %}"></script>
+{% endblock %}
+
+
+{% block script %}
+
+// Treeview Initialization
+$(document).ready(function() {
+$('.treeview-colorful').mdbTreeview();
+});
+
+{% endblock %}

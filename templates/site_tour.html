@@ -1,0 +1,200 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    Site Tour
+{% endblock %}
+
+{% block link_css %}
+
+    <style class="cp-pen-styles">@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,600|Quicksand);
+
+        h1 {
+            font-weight: normal;
+            line-height: 1.1;
+            font-family: 'Quicksand', sans-serif;
+            text-transform: uppercase;
+            font-size: 3em;
+            color: #fff;
+        }
+
+        .container {
+            width: 850px;
+            margin: 20px auto;
+        }
+
+        nav ul {
+            margin: 0;
+            padding: 0;
+            list-style-type: none;
+        }
+
+        .sitemap {
+            margin: 6px auto 6px 20px;
+        }
+        .sitemap a {
+            color: #000;
+            text-decoration: none;
+            display: inline-block;
+            text-transform: uppercase;
+            margin: 0 5px;
+            border-radius: 7px;
+            text-align: center;
+            position: relative;
+        }
+
+        .first > li > a {
+            background: #b4b5b4;
+            width: 150px;
+            height: 70px;
+            line-height: 70px;
+            display: block;
+            margin: auto;
+        }
+        .first > li > a:after {
+            content: "";
+            position: absolute;
+            left: 50%;
+            width: 1px;
+            height: 10px;
+            background: #9e9f9e;
+            top: 100%;
+        }
+
+        .second {
+            padding-top: 20px;
+        }
+        .second > li {
+            display: inline-block;
+            vertical-align: top;
+        }
+        .second a {
+            background: #cbcccb;
+            font-size: 14px;
+            width: 125px;
+            height: 50px;
+            line-height: 50px;
+            z-index: 10;
+        }
+        .second a:before {
+            content: "";
+            position: absolute;
+            border: 1px solid #9e9f9e;
+            border-left: none;
+            border-bottom: none;
+            height: 10px;
+            top: -10px;
+            left: -145px;
+            width: 165%;
+        }
+
+        .ss a:before {
+            width: 140%;
+            left: -110px;
+        }
+        .second li:first-child a:before {
+            border-top: none;
+        }
+
+        .third {
+            margin-left: 16px;
+            padding-top: 20px;
+        }
+        .third a {
+            background: #e4e4e3;
+            height: auto;
+            line-height: 20px;
+            margin-bottom: 10px;
+            z-index: 5;
+            font-size: 10px;
+            padding: 15px 0px;
+        }
+        .third a:before {
+            border: 1px solid #9e9f9e;
+            border-right: none;
+            border-top: none;
+            height: 85px;
+            top: -60px;
+            left: -8px;
+            width: 7px;
+        }
+        .ml-20 {
+            margin-left: 1rem !important;
+        }
+    </style>
+
+{% endblock %}
+
+{% block content %}
+<div class="content pt-4">
+    <div class="row">
+        <nav class="sitemap">
+            <ul class="first">
+                <li><a href="/" target="_blank" style="top: 48px;">Home</a>
+                    <ul class="second">
+                        <li class="pt-5 ml-20"><a href="#">Account</a>
+                            <ul class="third">
+                                {% if request.session.userid %}
+                                    <li><a href="/{{ request.session.userid }}/" target="_blank">enrollment number
+                                        ({{ request.session.userid }})</a></li>
+                                {% else %}
+                                    <li><a href="#" target="_blank">enrollment number</a></li>
+                                {% endif %}
+                                <li><a href="/students/" target="_blank">student list</a></li>
+                                <li><a href="/branch/" target="_blank">student rank</a></li>
+                                <li><a href="/subject/" target="_blank">subject results(mse)</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-3 ss"><a href="#">Authentication</a>
+                            <ul class="third">
+                                <li><a href="/login/" target="_blank">Student login</a></li>
+                                <li><a href="/faculty/login/" target="_blank">faculty login</a></li>
+                                <li><a href="/register/" target="_blank">register</a></li>
+                                <li><a href="/profile/" target="_blank">set username</a></li>
+                                <li><a href="/change/" target="_blank">change password</a></li>
+                                <li><a href="/forgot/" target="_blank">forgot password</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-20" ><a href="#">confession</a>
+                            <ul class="third">
+                                <li><a href="/confession/" target="_blank">Add</a></li>
+                                <li><a href="/confession/views/" target="_blank">View</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-3"><a href="#">notes</a>
+                            <ul class="third">
+                                <li><a href="/c/notes/sem-3/" target="_blank">Sem 3 aiml</a></li>
+                                <li><a href="/c/notes/sem-4/" target="_blank">Sem 4 aiml</a></li>
+                                <li><a href="/c/notes/sem-5/" target="_blank">Sem 5 aiml</a></li>
+                                <li><a href="/c/notes/sem-6/" target="_blank">Sem 6 aiml</a></li>
+                                <li><a href="/c/assignment/" target="_blank">assignment <br>sem 6 aiml</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-20"><a href="#">contact</a>
+                            <ul class="third">
+                                <li><a href="/contact/" target="_blank">contact</a></li>
+                                <li><a href="/developed-by/" target="_blank">developed by</a></li>
+                                <li><a href="mailto:info@cse-aiml.live/" target="_blank">mail</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-3"><a href="#">special user</a>
+                            <ul class="third">
+                                <li><a href="/admin/" target="_blank">admin</a></li>
+                                <li><a href="/student/" target="_blank">all student details</a></li>
+                                <li><a href="/faculties/" target="_blank">faculty list</a></li>
+                                <li><a href="/faculty/register/" target="_blank">faculty register</a></li>
+                            </ul>
+                        </li>
+                        <li class="pt-5 ml-20"><a href="#">upload</a>
+                            <ul class="third">
+                                <li><a href="/upload/" target="_blank">mse result</a></li>
+                                <li><a href="/upload/rollno/" target="_blank">division list</a></li>
+                            </ul>
+                        </li>
+                    </ul>
+                </li>
+            </ul>
+        </nav>
+    </div>
+</div>
+
+{% endblock %}

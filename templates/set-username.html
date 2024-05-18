@@ -1,0 +1,153 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Setup Username {% endblock %}
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <div class="card-header mb-4">
+                        <h1 class="card-title"
+                            style="font-family: 'auto';color: black;font-size: 25px;font-weight: 600;margin-left: 15px;">
+                            Setup Username For Chat
+                        </h1>
+                    </div>
+                    <div class="card-body">
+                        <div class="form-group">
+                            <div onclick="foucs_div()" style="font-weight: 600; font-size: 15px; background-color: #e3e3e3 !important;">
+                                <div class="input-group">
+                                    <div class="input-group-prepend" readonly>
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" id="default_username"
+                                           {% if user_name %}
+                                                value="Your Username is : {{ user_name }}"
+                                           {% else %}
+                                                value="Username Not Available, Please Set New Username.....!"
+                                           {% endif %}
+                                           class="form-control" readonly
+                                           autocomplete="off">
+                                </div>
+
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <form class="form" method="POST" id="set_form" onsubmit="set(); return false;">
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="Username" style="font-weight: 600; font-size: 15px;">
+                                    Username
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group input-group-focus">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="Username" placeholder="User Name"
+                                           id="Username" class="form-control"
+                                           required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group m-0" id="main_error" {% if not messages %}style="display: none"{% endif %}  >
+                                <div class="input-group m-0" style="color: red;" >
+                                    <div class="row">
+                                        <div class="col-12" >
+                                            <div class="fog-pwd text-center">
+                                                <div id="change" style="border-color: red !important;
+                                                            color: red !important;
+                                                            background-color: #ffd3d3 !important;"
+                                                class="alert alert-info m-0">
+                                                    {% if messages %}
+                                                        {% for message in messages %}
+                                                            <span class="alert-inner--text" id="messege_error" >{{ message }}</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="alert-inner--text" id="login_error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <button class="btn btn-info btn-lg btn-block mb-3" id="btn_user">
+                                {% if user_name %}
+                                    Update Username
+                                {% else %}
+                                    Set Username
+                                {% endif %}
+                            </button>
+                            <div class="pull-right">
+                                <h6>
+                                    <a href="/confession/views/" class="link footer-link text-info">View All Confessions</a>
+                                </h6>
+                            </div>
+                        </div>
+                        {% csrf_token %}
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script_1 %}
+    <script>
+        function foucs_div() {
+            $('#Username').focus();
+        }
+        function set() {
+            $('#login_loader').css('display', 'flex');
+            $.ajax({
+                url: '/profile/',
+                method: 'POST',
+                data: $('#set_form').serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+                    $('#main_error').css('display', 'block');
+                    var login_error = $('#login_error').html(data.msg);
+                    $('#messege_error').css('display', 'none');
+                    var change = $('#change');
+                    if (data.status === false) {
+                        login_error.css('color', 'red');
+                        change.css('background-color', '#ffd3d3');
+                        if (data.create === "same_user") {
+                            $('#Username').val('').focus();
+                        }
+                        else if (data.create === "details_error") {
+                            $('#Username').val('').focus();
+                        }
+                        $('#login_loader').css('display', 'none');
+                    }
+                    else {
+                        $('#default_username').val('Your Username is : '+data.username);
+                        $('#btn_user').html('Update Username');
+                        $('#tesing').css('display', 'block');
+                        login_error.css('color', 'green');
+                        change.css('background-color', '#4cff4c87');
+                        $('#set_form').trigger('reset');
+                        $('#login_loader').css('display', 'none');
+                    }
+                }
+            });
+
+        }
+    </script>
+{% endblock %}

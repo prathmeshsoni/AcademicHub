@@ -1,0 +1,243 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} 
+    {{ branch|upper }} SEM {{ sem }} RANK 
+{% endblock %}
+
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+        <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+                            Branch : {{ branch }} <b>|</b> Sem : {{ sem }} <b>|</b> Joining Year : {{ batch }}
+                            {% if batch|lower == "2021" %}
+                                & D2D 2022
+                            {% else %}
+                                & D2D 2023
+                            {% endif %}
+                        </div>
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+                            Student Rank List
+                        </div>
+                        <table id="datatable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>
+                                        Predicted Roll No
+                                    </th>
+                                    {% if check_roll == 'yes' %}
+                                        <th>Actual Roll No</th>
+                                    {% endif %}
+                                    <th>Name</th>
+                                    <th>Marks</th>
+                                    <th>En No.</th>
+                                    <th>
+                                        Predicted Division
+                                    </th>
+                                    {% if check_roll == 'yes' %}
+                                        <th>Actual Division</th>
+                                    {% endif %}
+                                    <th>Total</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in subjectdata_obj %}
+                                {% if request.session.userid|lower == i.student__enrollment_number|lower %}
+                                    <tr class="highlight-row" style="background-color: #69ff329a;" >
+                                {% else %}
+                                    <tr>
+                                {% endif %}
+                                    <td>
+                                        <span style="display: none;">
+                                            {% if i.a_roll_no %}
+                                                {{ i.a_roll_no }}
+                                            {% else %}
+                                                10000
+                                            {% endif %}
+                                        </span>
+                                    </td>
+                                    <td>
+                                        {{ forloop.counter }}
+                                    </td>
+                                    {% if check_roll == 'yes' %}
+                                        <td>
+                                            {% if i.a_roll_no %}
+                                                {{ i.a_roll_no }}
+                                            {% else %}
+                                                <span style="display: none;">10000</span>
+                                            {% endif %}
+                                        </td>
+                                    {% endif %}
+                                    <td>
+                                        <a href="/{{ i.student__enrollment_number }}/{{ sem }}/" style="color: #3856ff;">
+                                            {{ i.student__name }}
+                                        </a>
+                                    </td>
+                                    <td>{{ i.total_marks }}</td>
+                                    <td>{{ i.student__enrollment_number }}</td>
+                                    <td>{{ i.p_division }}</td>
+                                    {% if check_roll == 'yes' %}
+                                        <td>{{ i.a_division }}</td>
+                                    {% endif %}
+                                    <td>{{ i.total_mark }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    $(document).ready(function () {
+        var typingTimer;
+        $('input[type="search"]').on('keyup', function () {
+            clearTimeout(typingTimer);
+            typingTimer = setTimeout(function () {
+                var value = $('input[type="search"]').val();
+                hello(value);
+            }, 1500);
+        });
+    });
+
+    function hello(data) {
+        $.ajax({
+            url: '/hiii/',
+            method: 'POST',
+            data: {
+                'data': data,
+                'csrfmiddlewaretoken': '{{ csrf_token }}'
+            },
+            dataType: 'JSON',
+            success: function (data) {
+            }
+        });
+    }
+
+    var numRowsToShow = 9;
+    var scrollYValue = 0;
+        $('#datatable tbody tr:lt(' + numRowsToShow + ')').each(function () {
+        scrollYValue += $(this).height();
+    });
+    if (scrollYValue === 0){
+        scrollYValue = 400;
+    }
+    {% if check_roll == 'yes' %}
+        var table = $('#datatable').DataTable({
+            order: [[0, 'asc']],
+            scrollCollapse: true,
+            "iDisplayLength": -1,
+            scrollY: scrollYValue + "px",
+            "pagingType": "full_numbers",
+            responsive: true,
+            bPaginate: false,
+            rowCallback: function (row, data) {
+                var userIdFromData = data[5].toLowerCase();
+                var userIdFromSession = '{{ request.session.userid|lower }}';
+    
+                if (userIdFromData === userIdFromSession) {
+                    $(row).css('background-color', '#69ff329a');
+                }
+            }
+        });
+        var highlightedRow = $('#datatable tbody tr').filter(function () {
+            return $(this).find('td:eq(5)').text().toLowerCase() === '{{ request.session.userid|lower }}';
+        });
+    
+        if (highlightedRow.length > 0) {
+            var index = highlightedRow.index();
+    
+            table.row(index).remove().draw(false);
+            var rank = highlightedRow.find('td:eq(1)').text();
+            var a_rank = highlightedRow.find('td:eq(2)').text();
+            var name = highlightedRow.find('td:eq(3)').text();
+            var marks = highlightedRow.find('td:eq(4)').text();
+            var en_no = highlightedRow.find('td:eq(5)').text();
+            var division = highlightedRow.find('td:eq(6)').text();
+            var a_division = highlightedRow.find('td:eq(7)').text();
+            var total = highlightedRow.find('td:eq(8)').text();
+            var link = highlightedRow.find('td:eq(3) a').attr('href');
+            table.row.add( [
+                '<p style="display: none;">0</p>',
+                rank,
+                a_rank,
+                '<a href="'+link+'" style="color: #3856ff;">'+name+'</a>',
+                `${marks}`,
+                en_no,
+                division,
+                a_division,
+                total
+            ] ).draw( false );
+        }
+        else {
+            console.log("Not found");
+        }
+    {% else %}
+        var table = $('#datatable').DataTable({
+            order: [[0, 'asc']],
+            scrollCollapse: true,
+            "iDisplayLength": -1,
+            scrollY: scrollYValue + "px",
+            "pagingType": "full_numbers",
+            responsive: true,
+            bPaginate: false,
+            rowCallback: function (row, data) {
+                var userIdFromData = data[4].toLowerCase();
+                var userIdFromSession = '{{ request.session.userid|lower }}';
+    
+                if (userIdFromData === userIdFromSession) {
+                    $(row).css('background-color', '#69ff329a');
+                }
+            }
+        });
+        var highlightedRow = $('#datatable tbody tr').filter(function () {
+            return $(this).find('td:eq(4)').text().toLowerCase() === '{{ request.session.userid|lower }}';
+        });
+    
+        if (highlightedRow.length > 0) {
+            var index = highlightedRow.index();
+    
+            table.row(index).remove().draw(false);
+            var rank = highlightedRow.find('td:eq(1)').text();
+            var name = highlightedRow.find('td:eq(2)').text();
+            var marks = highlightedRow.find('td:eq(3)').text();
+            var en_no = highlightedRow.find('td:eq(4)').text();
+            var division = highlightedRow.find('td:eq(5)').text();
+            var total = highlightedRow.find('td:eq(6)').text();
+            var link = highlightedRow.find('td:eq(2) a').attr('href');
+            table.row.add( [
+                '<p style="display: none;">0</p>',
+                rank,
+                '<a href="'+link+'" style="color: #3856ff;">'+name+'</a>',
+                `${marks}`,
+                en_no,
+                division,
+                total
+            ] ).draw( false );
+        }
+        else {
+            console.log("Not found");
+        }
+    {% endif %}
+{% endblock %}

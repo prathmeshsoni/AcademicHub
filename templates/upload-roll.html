@@ -1,0 +1,103 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Upload Division List {% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post" enctype="multipart/form-data" class="form-group">
+                    {% csrf_token %}
+                    <div class="card p-2">
+                        <div class="card-header">
+                            {% if messages %}
+
+                                {% for message in messages %}
+                                    {% if message.tags == 'error' %}
+                                        <a class="navbar-brand" style="color: red; font-weight:600;" >{{ message }}</a>
+                                    {% else %}
+                                        <a class="navbar-brand" style="color: green; font-weight:600;" >{{ message }}</a>
+                                    {% endif %}
+                                {% endfor %}
+
+                            {% endif %}
+                            <h4 class="card-title">Just Upload Division List</h4>
+                        </div>
+                        <div class="card-body">
+                            <div class="row">
+                                <div class="col-md-4 col-sm-4">
+                                    <label for="semester_id">
+                                        Semester
+                                        <span class="text-danger">
+                                            *
+                                        </span>
+                                    </label>
+                                    <div class="dropdown">
+                                        <select class="selectpicker" name="semester" id="semester_id" data-style="btn btn-info">
+                                            {% for i in sem_obj %}
+                                                <option value="{{ i.sem_name }}">{{ i.sem_name }}</option>
+                                            {% endfor %}
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-5">
+                                <div class="col-md-4 col-sm-4">
+                                    <div class="fileinput fileinput-new text-center" data-provides="fileinput" style="width: 100% !important;">
+                                        <div class="fileinput-new thumbnail" style="width: 100% !important;">
+                                            <label for="pdf_file" class="card-title">
+                                                <i class="fa fa-cloud-upload-alt fa-5x vue-uploadbox-icon text-info"
+                                                   style="
+                                                        display: flex;
+                                                        height: 150px;
+                                                        align-items: center;
+                                                        justify-content: center;
+                                                "></i>
+                                            </label>
+                                        </div>
+                                        <div class="fileinput-preview fileinput-exists thumbnail"></div>
+                                        <div>
+                                            <span class="btn btn-success btn-round btn-file" style="background: #2085f8 !important;">
+                                                <span class="fileinput-new">
+                                                    Select PDF
+                                                </span>
+                                                <span class="fileinput-exists">Change</span>
+                                                <input type="file" name="pdf_file" id="pdf_file" accept=".csv, .pdf" required />
+                                            </span>
+                                            <a href="#pablo" class="btn btn-danger btn-round fileinput-exists"
+                                               data-dismiss="fileinput"><i class="fa fa-times"></i> Remove</a>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4 col-sm-4">
+                                    <div>
+                                        <input type="hidden" id="confirm_auth" name="confirm_auth"
+                                            value="{% if confirm_auth %}0{% else %}1{% endif %}" >
+                                        <input type="hidden" name="verify_data" value="upload_data">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row mt-4">
+                                <div class="col-md-12 col-sm-12 text-center">
+                                    <button type="submit" class="btn btn-info pr-5 pl-5 pt-3 pb-3" style="">
+                                        Submit
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    var confirm_auth = $('#confirm_auth').val();
+    console.log(confirm_auth);
+    if(parseInt(confirm_auth, 10) === 0){
+        alert('Upload Csv');
+    }
+
+{% endblock %}

@@ -1,0 +1,105 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    All Branch List
+{% endblock %}
+
+{% block link_css %}
+<link href="{% static 'assets/css/_treeview.css' %}" rel="stylesheet"/>
+{% endblock %}
+
+{% block content %}
+<div class="content">
+    <div class="row">
+        {% if branch_obj.items %}
+            {% for batch, sem_list in branch_obj.items %}
+                <div class="col-md-6">
+                    <div class="card card-chart">
+                        <div class="card-header">
+                            <h3 class="card-title">
+                                <i class="tim-icons icon-chart-bar-32 text-primary "></i>
+                                {{ batch }} 
+                                {% if batch|lower == "2021" %}
+                                    & D2D 2022
+                                {% else %}
+                                    & D2D 2023
+                                {% endif %}
+                            </h3>
+                        </div>
+                        <div class="card-body check">
+                            <div class="treeview-colorful w-20 border border-secondary mx-4">
+                                <ul class="treeview-colorful-list mb-3">
+                                    {% for sem, branch_list in sem_list.items %}
+                                        <li class="treeview-colorful-items">
+                                            <a class="treeview-colorful-items-header cursor-pointer" id="{{ batch|lower }}_{{ sem|lower }}">
+                                                <i class="fas fa-plus-circle"></i>
+                                                <span class="ic-w mx-1">
+                                                    SEM {{ sem }}
+                                                    {% if branch_list.Main_access == "False" %}
+                                                        {% if not request.session.access and not request.session.type %}
+                                                            <i class="rotate-none fas fa-lock ml-2"></i>
+                                                        {% endif %}
+                                                    {% endif %}
+                                                </span>
+                                            </a>
+                                            <ul class="nested">
+                                                {% for branch in branch_list.list %}
+                                                    <li class="treeview-colorful-items">
+                                                        <a class="treeview-colorful-items-header cursor-pointer text-info" href="/branch/{{ branch.branch|lower }}/{{ sem }}/{{ batch }}/">
+                                                            <span>
+                                                                <i class="rotate-none fas fa-book ic-w mx-1"></i>
+                                                                {{ branch.branch|upper }}
+                                                                <span class="badge badge-pill badge-info p-0 m-0">
+                                                                    {% if branch.Access == "False" %}
+                                                                        {% if not request.session.access and not request.session.type %}
+                                                                            <i class="rotate-none fas fa-lock"></i>
+                                                                        {% endif %}
+                                                                    {% endif %}
+                                                                </span>
+                                                            </span>
+                                                        </a>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                            {% if not forloop.last %}<hr style="border-top: 1px solid rgba(0, 0, 0, .1) !important;">{% endif %}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        {% else %}
+            <div class="col-md-6">
+                <div class="card card-chart">
+                    <div class="card-header">
+                        <h3 class="card-title">
+                            <i class="tim-icons icon-chart-bar-32 text-primary "></i>
+                            No Data Available
+                        </h3>
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</div>
+
+{% endblock %}
+
+
+{% block script_1 %}
+<script src="{% static 'assets/js/treeview.min.js' %}"></script>
+<script src="{% static 'assets/js/treeview.min.map.js' %}"></script>
+{% endblock %}
+
+
+{% block script %}
+
+// Treeview Initialization
+$(document).ready(function() {
+$('.treeview-colorful').mdbTreeview();
+});
+
+{% endblock %}

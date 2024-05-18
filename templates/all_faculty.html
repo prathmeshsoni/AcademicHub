@@ -1,0 +1,56 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    {{ title }}
+{% endblock %}
+{% block content %}
+    <div class="content">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-body">
+                    <div class="toolbar font-weight-bold">
+                        Faculty List
+                    </div>
+                    <table id="faculty" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for faculty in faculty_obj %}
+                                <tr>
+                                    <td>
+                                        {{ faculty.name }}
+                                    </td>
+                                    <td>
+                                        {{ faculty.email }}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+    </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+    var numRowsToShow = 9;
+    var scrollYValue2 = 0;
+        $('#faculty tbody tr:lt(' + numRowsToShow + ')').each(function () {
+        scrollYValue2 += $(this).height();
+    });
+    $('#faculty').DataTable({
+        order: [[0, 'asc']],
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: scrollYValue2 + "px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+    });
+{% endblock %}

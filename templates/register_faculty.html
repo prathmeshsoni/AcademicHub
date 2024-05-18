@@ -1,0 +1,241 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %} Register {% endblock %}
+
+{% block css %}
+
+{% endblock %}
+
+{% block content %}
+
+    <div class="content mt-4">
+        <div class="row">
+            <div class="col-md-7 ml-auto mr-auto">
+                <div class="card card-login card-white pb-3">
+                    <div class="card-header mb-4">
+                        <h1 class="card-title"
+                            style="font-family: 'auto';color: black;font-size: 37px;font-weight: 600;margin-left: 15px;">
+                            Faculty Register
+                        </h1>
+                    </div>
+                    <form class="form" method="POST" id="register_form" onsubmit="register(); return false;">
+                        {% csrf_token %}
+                        <div class="card-body">
+                            <div class="form-group mb-3" id="main_error_1" style="display: none;">
+                                <div class="input-group m-0" style="color: green;">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="fog-pwd text-center">
+                                                <div style="border-color: green !important;
+                                                            color: green !important;
+                                                            background-color: #6aff5929 !important;"
+                                                     class="alert alert-info m-0">
+
+                                                    <span class="alert-inner--text" id="success"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Username" style="font-weight: 600; font-size: 15px;">
+                                    Fullname
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="Fullname" placeholder="Fullname" id="Username"
+                                           class="form-control" required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="Email" style="font-weight: 600; font-size: 15px;">
+                                    Email
+                                    <span style="color:red;">*</span>
+                                </label>
+                                <div class="input-group">
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-email-85"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="email" name="email" inputmode="email" placeholder="Email" id="Email"
+                                           class="form-control" required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="name" style="font-weight: 600; font-size: 15px;">
+                                    Username
+                                </label>
+                                <div class="input-group">
+
+                                    <div class="input-group-prepend">
+                                        <div class="input-group-text">
+                                            <i class="tim-icons icon-single-02"></i>
+                                        </div>
+                                    </div>
+
+                                    <input type="text" name="username" placeholder="username" id="name"
+                                           class="form-control" required autocomplete="off">
+                                </div>
+                            </div>
+                            <div class="form-group m-0" id="main_error"
+                                 {% if not messages %}style="display: none"{% endif %}>
+                                <div class="input-group m-0" style="color: red;">
+                                    <div class="row">
+                                        <div class="col-12">
+                                            <div class="fog-pwd text-center">
+                                                <div id="change" style="border-color: red !important;
+                                                            color: red !important;
+                                                            background-color: #ff5e5929 !important;"
+                                                     class="alert alert-info m-0">
+                                                    {% if messages %}
+                                                        {% for message in messages %}
+                                                            <span class="alert-inner--text"
+                                                                  id="messege_error">{{ message }}</span>
+                                                        {% endfor %}
+                                                    {% endif %}
+                                                    <span class="alert-inner--text" id="register_error"></span>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <div class="card-footer pt-0">
+                            <button type="submit" class="btn btn-info btn-lg btn-block mb-3">
+                                Register
+                            </button>
+                            <div class="pull-left">
+                                <h6>
+                                    <a href="/login/" class="link footer-link text-info">Already Have Account ?</a>
+                                </h6>
+                            </div>
+                            <div class="pull-right">
+                                <h6>
+                                    <a href="/contact/" class="link footer-link text-info">
+                                        Any Suggestion, Feedback ?
+                                    </a>
+                                </h6>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+
+{% block script_1 %}
+    <script>
+        function register() {
+            const pass = $('#Username').val().length;
+
+            $('#login_loader').css('display', 'flex');
+            $.ajax({
+                url: '/faculty/register/',
+                method: 'POST',
+                data: $('#register_form').serialize(),
+                dataType: 'JSON',
+                success: function (data) {
+
+                    if (data.status === true) {
+                        if (data.exists === "exist_user") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg);
+                        }
+                        else if (data.create === "user_create") {
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg).css('color', 'green');
+                            $("#change").css('background-color', '#6aff5929');
+                            $('#main_error_1').css('display', 'block');
+                            $('#success').html(data.msg_1);
+                            $('#register_form').trigger('reset');
+                            $('#login_loader').css('display', 'none');
+                        }
+                        else if (data.create === "user_create_1") {
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg).css('color', 'green');
+                            $("#change").css('background-color', '#6aff5929');
+                            $('#main_error_1').css('display', 'block');
+                            $('#success').html(data.msg_1);
+                            $('#register_form').trigger('reset');
+                            $('#login_loader').css('display', 'none');
+                            setTimeout(function () {
+                                $('#success').html(data.msg_2);
+                                $('#register_error').html(data.msg_3);
+                            }, 4000);
+                        }
+                        else if (data.create === "enroll_error_len") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg);
+                            $('#Username').focus();
+                        }
+                        else if (data.create === "already_taken") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg);
+                            $('#name').focus();
+                        }
+                        else if (data.create === "enroll_error_int") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg)
+                            $('#Username').val('').focus();
+                        }
+                        else if (data.create === "email_error") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg)
+                            $('#Email').focus();
+                        }
+                        else if (data.create === "suspended_user") {
+                            $('main_error_1').css('display', 'none');
+                            $('#main_error').css('display', 'block');
+                            $('#messege_error').css('display', 'none');
+                            $('#register_error').html(data.msg)
+                            $('#Email').focus();
+                        }
+                        setTimeout(function () {
+                            $('#login_loader').css('display', 'none');
+                        }, 650);
+                    }
+                    else {
+                        $('main_error_1').css('display', 'none');
+                        $('#login_loader').css('display', 'none');
+                        $('#main_error').css('display', 'block');
+                        $('#messege_error').css('display', 'none');
+                        $('#register_error').html('Something is Wrong Try Again...').css('color', 'red');
+                        setTimeout(function () {
+                            window.location.href = "/register/";
+                        }, 1000);
+                    }
+                }
+
+            });
+
+        }
+    </script>
+{% endblock %}

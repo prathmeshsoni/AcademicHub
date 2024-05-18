@@ -1,0 +1,122 @@
+{% extends 'index.html' %}
+{% load static %}
+{% block title %}
+    History - {{ profile_obj.username }}
+{% endblock %}
+{% block content %}
+
+    <div class="content">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+                            <a href="javascript:void(0)" target="_blank">
+                                CSE AIML Logs
+                            </a>
+                        </div>
+                        <table id="datatable" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Enrollment</th>
+                                    <th>Modification</th>
+                                    <th>Email</th>
+                                    <th>Name</th>
+                                    <th>Division</th>
+                                    <th>Verify</th>
+                                    <th>Created At</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{ profile_obj.id }}</td>
+                                    <td>
+                                        <a href="/{{ profile_obj.username }}/" style="color: #3856ff;" >
+                                            {{ profile_obj.username }}
+                                        </a>
+                                    </td>
+                                    <td>{{ profile_obj.modified }}</td>
+                                    <td>{{ profile_obj.email }}</td>
+                                    <td>{{ profile_obj.name }}</td>
+                                    <td>{{ profile_obj.div }}</td>
+                                    <td>{{ profile_obj.is_verified }}</td>
+                                    <td>{{ profile_obj.created_at }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="toolbar">
+
+                        </div>
+                        <table id="datatable1" class="table table-striped">
+                            <thead>
+                                <tr>
+                                    <th></th>
+                                    <th>Time</th>
+                                    <th>Path</th>
+                                    <th>method</th>
+                                    <th>Error value</th>
+                                    <th>Error Name</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                            {% for i in data %}
+                                <tr>
+                                    <td style="color: #f0f8ff00 !important;" >
+                                        {{ i.count }}
+                                    </td>
+                                    <td>{{ i.time }}</td>
+                                    <td>
+                                        {% if request.session.access_1 %}
+                                            <a href="{{ i.path }}" style="color: #3856ff;" target="_blank">
+                                                {{ i.path }}
+                                            </a>
+                                        {% else %}
+                                            {{ i.path }}
+                                        {% endif %}
+                                    </td>
+                                    <td>{{ i.method }}</td>
+                                    <td>{{ i.error_value }}</td>
+                                    <td>{{ i.error_name }}</td>
+                                </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+
+{% endblock %}
+
+{% block script %}
+
+    $('#datatable1').DataTable({
+        scrollCollapse: true,
+        order: [[ 0, "desc" ]],
+        "iDisplayLength": -1,
+        scrollY: "457px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+    });
+    $('#datatable').DataTable({
+        scrollCollapse: true,
+        "iDisplayLength": -1,
+        scrollY: "3000px",
+        "pagingType": "full_numbers",
+        responsive: true,
+        bPaginate: false,
+    });
+
+
+{% endblock %}
