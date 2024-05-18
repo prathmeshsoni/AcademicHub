@@ -1,6 +1,6 @@
 <p id="top" align="center">
   <a href="https://cse-aiml.live" target="_blank">
-    <img src="/static/assets/img/logo-AcademicHub.png" alt="Logoo" width="300" height="100">
+    <img src="static/assets/img/logo-AcademicHub.png" alt="Logoo" width="300" height="100">
   </a>
 </p>
 
