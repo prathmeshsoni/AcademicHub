@@ -29,7 +29,7 @@
 
 </p>
 
-🎓🔗 AcademicHub: Streamline student connectivity and insights with powerful features. 📊👩‍🎓
+🎓🔗 AcademicHub: Streamline student connectivity and insights with powerful features. 📊
 
 
 # Live Demo 👇:
