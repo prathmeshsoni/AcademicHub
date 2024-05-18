@@ -1,12 +1,12 @@
 <p id="top" align="center">
-  <a href="https://cse-aiml.live" target="_blank">
+  <a href="https://cse-aiml.live?ref=logo-github" target="_blank">
     <img src="static/assets/img/logo-AcademicHub.png" alt="Logoo" width="300" height="100">
   </a>
 </p>
 
 
 <h1 align="center" class="dotted">
-    <a href="https://cse-aiml.live" target="_blank">   
+    <a href="https://cse-aiml.live?ref=logo-name-github" target="_blank">   
         AcademicHub
     </a>
 </h1>
@@ -34,7 +34,7 @@
 
 # Live Demo 👇:
 
-<a href="https://cse-aiml.live" target="_blank">cse-aiml.live</a>
+<a href="https://cse-aiml.live?ref=live-link-github" target="_blank">cse-aiml.live</a>
 
 <br>
 
@@ -147,7 +147,7 @@ Visit [`http://127.0.0.1:8000`](http://localhost:8000) in your browser. The app 
 ## Screenshots
 
 
-Visit our <a href="https://private-app.prathmeshsoni.works/view/118" target="_blank">Screenshots Page</a> for a visual walkthrough of the AcademicHub Website.
+Visit our <a href="https://private-app.prathmeshsoni.works/view/118?ref=screenshots-github" target="_blank">Screenshots Page</a> for a visual walkthrough of the AcademicHub Website.
 
 
 <br />
@@ -195,4 +195,4 @@ The repository is a starting point for most of my professional projects; for thi
 
 
 ---
-**<a href="https://cse-aiml.live" target="_blank">AcademicHub</a>** - Provided by **<a href="https://prathmeshsoni.works" target="_blank">Prathmesh Soni</a>**
+**<a href="https://cse-aiml.live?ref=footer-github" target="_blank">AcademicHub</a>** - Provided by **<a href="https://prathmeshsoni.works?ref=footer-github" target="_blank">Prathmesh Soni</a>**
