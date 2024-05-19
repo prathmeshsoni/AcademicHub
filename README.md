@@ -161,7 +161,7 @@ Thanks to these wonderful people for their contributions:
 
 | ![Manthan](/uploads/developer/manthan.jpg) | ![Vraj](/uploads/developer/vraj.png) |   ![Parshad](/uploads/developer/parshad.jpeg)   | ![Janak](/uploads/developer/janak.png) | ![Param](/uploads/developer/param.png)   |
 |:------------------------------------------:|:------------------------------------:|:-----------------------------------------------:|:--------------------------------------:|:------------------------------------------------:|
-|   [Manthan](https://github.com/mdakbari)   |  [Vraj](https://github.com/311vraj)  | [Parshad](https://github.com/parshadpatel19)    |      [Janak](https://github.com/)      |     [Param](https://github.com/1paramsworld)     |
+|   [Manthan](https://github.com/mdakbari)   |  [Vraj](https://github.com/311vraj)  | [Parshad](https://github.com/parshadpatel19)    |      [Janak](https://github.com/janakDobariya)      |     [Param](https://github.com/1paramsworld)     |
 
 
 <br />
