@@ -91,47 +91,10 @@ Install Python 3.7 or above
 
 ### Installation
 
-> 👉 **Step 1** - Download the code from the GH repository (using `GIT`):
-```bash
-git clone https://github.com/prathmeshsoni/AcademicHub.git && cd AcademicHub
-```
-
-<br />
-
-> 👉 **Step 2** - Create virtual environment:
-```
-python -m venv .venv
-```
-
-<br />
-
-> 👉 **Step 3** - Activating the environment:
-
-on Windows:
-```bash
-.venv\Scripts\activate.bat
-```
-on Mac OS / Linux:
-```bash
-source .venv\Scripts\activate
-```
-
-<br />
-
-> 👉 **Step 4** - Installing dependencies:
-
-```bash
-pip install -r requirements.txt
-```
-
-
-<br />
-
-> 👉 **Step 5** - You can now run the development server:
-
-```bash
-python manage.py runserver
-```
+1. Clone the repository: `git clone https://github.com/prathmeshsoni/AcademicHub.git && cd AcademicHub`
+2. Create & Activate virtual environment: `python -m venv .venv && .venv\Scripts\activate.bat`
+3. Install dependencies: `pip install -r requirements.txt`
+4. Launch the Django development server: `python manage.py runserver`
 
 Visit [`http://127.0.0.1:8000`](http://localhost:8000) in your browser. The app should be up & running.
 
