@@ -1,12 +1,12 @@
 <p id="top" align="center">
-  <a href="https://cse-aiml.tech?ref=logo-github" target="_blank">
+  <a href="https://academichub.stuffs.me?ref=logo-github" target="_blank">
     <img src="static/assets/img/logo-AcademicHub.png" alt="Logoo" width="400" height="150">
   </a>
 </p>
 
 
 <h1 align="center" class="dotted">
-    <a href="https://cse-aiml.tech?ref=logo-name-github" target="_blank">   
+    <a href="https://academichub.stuffs.me?ref=logo-name-github" target="_blank">   
         AcademicHub
     </a>
 </h1>
@@ -38,7 +38,7 @@
 
 # Live Demo 👇:
 
-<a href="https://cse-aiml.tech?ref=live-link-github" target="_blank">cse-aiml.tech</a>
+<a href="https://academichub.stuffs.me?ref=live-link-github" target="_blank">academichub.stuffs.me</a>
 
 <br />
 
@@ -47,8 +47,8 @@
 Want to contribute to this project?
 
 * ✅ **Fork** this repository
-* ✅ Apply to contribute: [https://cse-aiml.tech/contribute/](https://cse-aiml.tech/contribute/)
-* ✅ Check out **Open Issues** here: [https://cse-aiml.tech/issues/](https://cse-aiml.tech/issues/)
+* ✅ Apply to contribute: [https://academichub.stuffs.me/contribute/](https://academichub.stuffs.me/contribute/)
+* ✅ Check out **Open Issues** here: [https://academichub.stuffs.me/issues/](https://academichub.stuffs.me/issues/)
 
 <br />
 
@@ -100,7 +100,7 @@ In addition, AcademicHub provides access to subject-wise GTU exam papers to aid 
 
 - **Real-time Notifications**: Integrates with Google Firebase to send push notifications for announcements and updates.
 
-- **Student Information Search**: Search for any GTU student by enrollment number using `https://cse-aiml.tech/<Enter-Here-any-Enrollment>/` or use [advanced search](https://cse-aiml.tech/advanced-student-search/).
+- **Student Information Search**: Search for any GTU student by enrollment number using `https://academichub.stuffs.me/<Enter-Here-any-Enrollment>/` or use [advanced search](https://academichub.stuffs.me/advanced-student-search/).
 
 - **GTU Result Search**: Quickly find and download GTU results by entering your enrollment number. GitHub: [https://github.com/prathmeshsoni/GTU-Result-Download](https://github.com/prathmeshsoni/GTU-Result-Download)
 
@@ -108,12 +108,12 @@ In addition, AcademicHub provides access to subject-wise GTU exam papers to aid 
 
 - **GTU Exam Paper Search**: Instantly retrieve GTU exam papers by entering the subject code.
 
-- **Student-Admin Chat**: Real-time messaging system where students and admins can communicate securely. Live: [https://chat.cse-aiml.tech/](https://chat.cse-aiml.tech/) | GitHub: [https://github.com/prathmeshsoni/Chat-Application/](https://github.com/prathmeshsoni/Chat-Application/)
+- **Student-Admin Chat**: Real-time messaging system where students and admins can communicate securely. Live: [https://chat.academichub.stuffs.me/](https://chat.academichub.stuffs.me/) | GitHub: [https://github.com/prathmeshsoni/Chat-Application/](https://github.com/prathmeshsoni/Chat-Application/)
 
 - **Company Placement Management**: Dedicated section where students can view company visit details, job descriptions, recruitment processes, and see showcased profiles of placed students.
 
 
-> 📌 This repository contains an older version. For the latest updated version, contact: [info@cse-aiml.tech](mailto:info@cse-aiml.tech) or visit [Contact for Code](https://cse-aiml.tech/contact/code/)
+> 📌 This repository contains an older version. For the latest updated version, contact: [info@academichub.stuffs.me](mailto:info@academichub.stuffs.me) or visit [Contact for Code](https://academichub.stuffs.me/contact/code/)
 
 <br />
 
@@ -192,7 +192,7 @@ Visit our <a href="https://project.mrsoni.me/academichub/?ref=screenshots-github
 
 ## Contributors
 
-| <img src="https://cse-aiml.tech/uploads/developer/PrathmeshSoni.png" width="150" height="150"> | <img src="/uploads/developer/manthan.jpg" width="150" height="150"> | <img src="/uploads/developer/janak.png" width="150" height="150"> | <img src="/uploads/developer/parshad.jpeg" width="150" height="150"> | <img src="/uploads/developer/vraj.png" width="150" height="150"> | <img src="/uploads/developer/param.png" width="150" height="150"> |
+| <img src="https://academichub.stuffs.me/uploads/developer/PrathmeshSoni.png" width="150" height="150"> | <img src="/uploads/developer/manthan.jpg" width="150" height="150"> | <img src="/uploads/developer/janak.png" width="150" height="150"> | <img src="/uploads/developer/parshad.jpeg" width="150" height="150"> | <img src="/uploads/developer/vraj.png" width="150" height="150"> | <img src="/uploads/developer/param.png" width="150" height="150"> |
 |:----------------------------------------------------------------------------------------------:|:--------------------------------------------------------------------:|:-----------------------------------------------------------------:|:-----------------------------------------------------------------------:|:------------------------------------------------------------------:|:---------------------------------------------------------------------:|
 | [Prathmesh](https://github.com/PrathmeshSoni) | [Manthan](https://github.com/mdakbari) | [Janak](https://github.com/janakDobariya) | [Parshad](https://github.com/parshad-patel) | [Vraj](https://github.com/311vraj) | [Param](https://github.com/ParamShah-Connect) |
 
@@ -229,5 +229,5 @@ The repository is a starting point for most of my professional projects; for thi
 
 
 ---
-**<a href="https://cse-aiml.tech?ref=footer-github" target="_blank">AcademicHub</a>** - Provided by **<a href="https://soniprathmesh.com?ref=footer-github" target="_blank">Prathmesh Soni</a>**
+**<a href="https://academichub.stuffs.me?ref=footer-github" target="_blank">AcademicHub</a>** - Provided by **<a href="https://soniprathmesh.com?ref=footer-github" target="_blank">Prathmesh Soni</a>**
 
